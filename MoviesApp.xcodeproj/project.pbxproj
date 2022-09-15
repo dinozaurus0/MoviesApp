@@ -99,8 +99,7 @@
 		285D263328D34BED00C736F9 /* MoviesApp */ = {
 			isa = PBXGroup;
 			children = (
-				285D263428D34BED00C736F9 /* AppDelegate.swift */,
-				285D263628D34BED00C736F9 /* SceneDelegate.swift */,
+				285D266428D34E0100C736F9 /* AppLifecycle */,
 				285D263828D34BED00C736F9 /* ViewController.swift */,
 				285D263A28D34BED00C736F9 /* Main.storyboard */,
 				285D263D28D34BEE00C736F9 /* Assets.xcassets */,
@@ -125,6 +124,15 @@
 				285D265728D34BEE00C736F9 /* MoviesAppUITestsLaunchTests.swift */,
 			);
 			path = MoviesAppUITests;
+			sourceTree = "<group>";
+		};
+		285D266428D34E0100C736F9 /* AppLifecycle */ = {
+			isa = PBXGroup;
+			children = (
+				285D263428D34BED00C736F9 /* AppDelegate.swift */,
+				285D263628D34BED00C736F9 /* SceneDelegate.swift */,
+			);
+			path = AppLifecycle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
