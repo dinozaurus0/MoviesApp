@@ -30,6 +30,9 @@
 		285D268728D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D268628D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift */; };
 		285D268928D4A40300C736F9 /* FavouriteMoviesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D268828D4A40300C736F9 /* FavouriteMoviesFetcher.swift */; };
 		285D268D28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D268C28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift */; };
+		285D269028D4BCC400C736F9 /* FavouriteMoviesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D268F28D4BCC400C736F9 /* FavouriteMoviesRouter.swift */; };
+		285D269228D4BCE400C736F9 /* SpyFavouriteMoviesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269128D4BCE400C736F9 /* SpyFavouriteMoviesRouter.swift */; };
+		285D269428D4BD7F00C736F9 /* FavouriteMovieExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269328D4BD7F00C736F9 /* FavouriteMovieExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +80,9 @@
 		285D268628D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubFavouriteMoviesFetcher.swift; sourceTree = "<group>"; };
 		285D268828D4A40300C736F9 /* FavouriteMoviesFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMoviesFetcher.swift; sourceTree = "<group>"; };
 		285D268C28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyFavouriteMoviesFetcher.swift; sourceTree = "<group>"; };
+		285D268F28D4BCC400C736F9 /* FavouriteMoviesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMoviesRouter.swift; sourceTree = "<group>"; };
+		285D269128D4BCE400C736F9 /* SpyFavouriteMoviesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyFavouriteMoviesRouter.swift; sourceTree = "<group>"; };
+		285D269328D4BD7F00C736F9 /* FavouriteMovieExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMovieExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +182,7 @@
 		285D266628D35A7700C736F9 /* FavouriteMovies */ = {
 			isa = PBXGroup;
 			children = (
+				285D268E28D4BCAD00C736F9 /* Navigation */,
 				285D268328D4A2A600C736F9 /* Services */,
 				285D267B28D4921B00C736F9 /* ViewModel */,
 				285D267A28D491D600C736F9 /* Views */,
@@ -252,6 +259,7 @@
 			children = (
 				285D268628D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift */,
 				285D268C28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift */,
+				285D269128D4BCE400C736F9 /* SpyFavouriteMoviesRouter.swift */,
 			);
 			path = TestDoubles;
 			sourceTree = "<group>";
@@ -261,8 +269,17 @@
 			children = (
 				285D267F28D4948400C736F9 /* FavouriteMoviesCollectionViewModelTests.swift */,
 				285D268128D4A13200C736F9 /* PresentableFavouriteMovieCardExtension.swift */,
+				285D269328D4BD7F00C736F9 /* FavouriteMovieExtension.swift */,
 			);
 			path = FavouriteMovies;
+			sourceTree = "<group>";
+		};
+		285D268E28D4BCAD00C736F9 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				285D268F28D4BCC400C736F9 /* FavouriteMoviesRouter.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -399,6 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				285D266C28D362B000C736F9 /* FavouriteMovieCell.swift in Sources */,
+				285D269028D4BCC400C736F9 /* FavouriteMoviesRouter.swift in Sources */,
 				285D267D28D4927200C736F9 /* FavouriteMoviesCollectionViewModel.swift in Sources */,
 				285D263928D34BED00C736F9 /* ViewController.swift in Sources */,
 				285D268928D4A40300C736F9 /* FavouriteMoviesFetcher.swift in Sources */,
@@ -418,6 +436,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				285D268728D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift in Sources */,
+				285D269228D4BCE400C736F9 /* SpyFavouriteMoviesRouter.swift in Sources */,
+				285D269428D4BD7F00C736F9 /* FavouriteMovieExtension.swift in Sources */,
 				285D268028D4948400C736F9 /* FavouriteMoviesCollectionViewModelTests.swift in Sources */,
 				285D268228D4A13200C736F9 /* PresentableFavouriteMovieCardExtension.swift in Sources */,
 				285D268D28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift in Sources */,

@@ -14,13 +14,17 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
     @Published public var noEntryMessage: String = ""
 
     private let moviesFetcher: FavouriteMoviesFetcher
+    private let router: FavouriteMoviesRouter
 
     // MARK: - Init
-    public init(moviesFetcher: FavouriteMoviesFetcher) {
+    public init(moviesFetcher: FavouriteMoviesFetcher, router: FavouriteMoviesRouter) {
         self.moviesFetcher = moviesFetcher
+        self.router = router
     }
+}
 
-    // MARK: - Public Methods
+// MARK: - Movies Fetch
+extension FavouriteMoviesCollectionViewModel {
     public func fetchAllMovies() {
         moviesFetcher.fetchMovies { [weak self] result in
             guard let self = self else { return }
@@ -29,12 +33,11 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
             case let .success(movies):
                 self.handleSuccessfulMoviesFetch(with: movies)
             case .failure:
-                self.noEntryMessage = "There is a problem with movies fetching. Please try later!"
+                self.handleFailureMoviesFetch()
             }
         }
     }
 
-    // MARK: - Private Methods
     private func handleSuccessfulMoviesFetch(with favouriteMovies: [FavouriteMovie]) {
         if favouriteMovies.isEmpty {
             self.noEntryMessage = "No favourite movies to display!"
@@ -46,5 +49,29 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
         movies.map { movie in
             PresentableFavouriteMovieCard(id: UUID(), title: movie.title, description: movie.description, image: movie.image, rating: String(movie.rating) )
         }
+    }
+
+    private func handleFailureMoviesFetch() {
+        noEntryMessage = "There is a problem with movies fetching. Please try later!"
+    }
+}
+
+// MARK: - Navigate to details
+extension FavouriteMoviesCollectionViewModel {
+    public func didSelectCell(with identifier: UUID) {
+        guard let presentableFavouriteMovie = findPresentableMovie(using: identifier) else { return }
+        let favouriteMovie = convertFromPresentableToFavouriteMovie(presentableFavouriteMovie)
+        router.navigateToDetailsScreen(movieSelected: favouriteMovie)
+    }
+
+    private func findPresentableMovie(using identifier: UUID) -> PresentableFavouriteMovieCard? {
+        favouriteMovies.first { $0.id == identifier }
+    }
+
+    private func convertFromPresentableToFavouriteMovie(_ presentableFavouriteMovie: PresentableFavouriteMovieCard) -> FavouriteMovie {
+        FavouriteMovie(title: presentableFavouriteMovie.title,
+                       description: presentableFavouriteMovie.description,
+                       image: presentableFavouriteMovie.image,
+                       rating: Float(presentableFavouriteMovie.rating) ?? 0.0)
     }
 }
