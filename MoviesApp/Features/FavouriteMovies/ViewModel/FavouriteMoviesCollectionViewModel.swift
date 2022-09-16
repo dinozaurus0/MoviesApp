@@ -14,18 +14,29 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
     @Published public var noEntryMessage: String = ""
 
     private let moviesFetcher: FavouriteMoviesFetcher
+    private let moviesDeleter: FavouriteMoviesDeleter
     private let router: FavouriteMoviesRouter
 
     // MARK: - Init
-    public init(moviesFetcher: FavouriteMoviesFetcher, router: FavouriteMoviesRouter) {
+    public init(moviesFetcher: FavouriteMoviesFetcher, moviesDeleter: FavouriteMoviesDeleter, router: FavouriteMoviesRouter) {
         self.moviesFetcher = moviesFetcher
+        self.moviesDeleter = moviesDeleter
         self.router = router
     }
 }
 
-// MARK: - Movies Fetch
+// MARK: - Movies Fetch & Movie Deletion
 extension FavouriteMoviesCollectionViewModel {
-    public func fetchAllMovies() {
+    public func didTapDislikeCell(from identifier: UUID) {
+        moviesDeleter.deleteMovie(with: identifier)
+        fetchMovies()
+    }
+
+    public func loadMovies() {
+        fetchMovies()
+    }
+
+    private func fetchMovies() {
         moviesFetcher.fetchMovies { [weak self] result in
             guard let self = self else { return }
 

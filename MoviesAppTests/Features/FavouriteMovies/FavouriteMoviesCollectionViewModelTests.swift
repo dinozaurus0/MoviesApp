@@ -14,8 +14,14 @@ private struct FetcherError: Error {}
 internal final class FavouriteMoviesCollectionViewModelTests: XCTestCase {
     // MARK: - Helpers
 
-    private func makeSUT(moviesFetcher: FavouriteMoviesFetcher, router: FavouriteMoviesRouter) -> FavouriteMoviesCollectionViewModel {
-        FavouriteMoviesCollectionViewModel(moviesFetcher: moviesFetcher, router: router)
+    private func makeSUT(moviesFetcher: FavouriteMoviesFetcher, moviesDeleter: FavouriteMoviesDeleter? = nil, router: FavouriteMoviesRouter? = nil) -> FavouriteMoviesCollectionViewModel {
+        FavouriteMoviesCollectionViewModel(moviesFetcher: moviesFetcher,
+                                           moviesDeleter: moviesDeleter ?? SpyFavouriteMoviesDeleter(),
+                                           router: router ?? SpyFavouriteMoviesRouter())
+    }
+
+    private func loadDataSource(from sut: FavouriteMoviesCollectionViewModel) {
+        sut.loadMovies()
     }
 
     private func getIdentifier(from presentableMovies: [PresentableFavouriteMovieCard], forItemIndex: Int) -> UUID {
@@ -62,57 +68,100 @@ internal final class FavouriteMoviesCollectionViewModelTests: XCTestCase {
 
 // MARK: - Load movie list from a service
 extension FavouriteMoviesCollectionViewModelTests {
-    func test_fetchAllMovies_withEmptyInput_shouldReturnEmptyPresentableUIModels() {
+    func test_loadMovies_withEmptyInput_shouldReturnEmptyPresentableUIModels() {
         // given
-        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success([])), router: SpyFavouriteMoviesRouter())
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success([])))
 
         // when
-        sut.fetchAllMovies()
+        sut.loadMovies()
 
         // then
         XCTAssertEqual(sut.favouriteMovies, [])
     }
 
-    func test_fetchAllMovies_withValidInput_shouldReturnPresentableUIModels() {
+    func test_loadMovies_withValidInput_shouldReturnPresentableUIModels() {
         // given
-        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), router: SpyFavouriteMoviesRouter())
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)))
 
         // when
-        sut.fetchAllMovies()
+        sut.loadMovies()
 
         // then
         XCTAssertEqual(sut.favouriteMovies, presentableFavouriteMovies)
     }
 
-    func test_fetchAllMovies_withEmptyInput_shouldShowEmptyInputMessage() {
+    func test_loadMovies_withEmptyInput_shouldShowEmptyInputMessage() {
         // given
-        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success([])), router: SpyFavouriteMoviesRouter())
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success([])))
 
         // when
-        sut.fetchAllMovies()
+        sut.loadMovies()
 
         // then
         XCTAssertEqual(sut.noEntryMessage, "No favourite movies to display!")
     }
 
-    func test_fetchAllMovies_withErrorInput_shouldShowErrorMessage() {
+    func test_loadMovies_withErrorInput_shouldShowErrorMessage() {
         // given
-        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.failure(FetcherError())), router: SpyFavouriteMoviesRouter())
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.failure(FetcherError())))
 
         // when
-        sut.fetchAllMovies()
+        sut.loadMovies()
 
         // then
         XCTAssertEqual(sut.noEntryMessage, "There is a problem with movies fetching. Please try later!")
     }
 
-    func test_fetchAllMovies_withInput_shouldCallMoviesFetcher() {
+    func test_loadMovies_withInput_shouldCallMoviesFetcher() {
         // given
         let fetcher = SpyFavouriteMoviesFetcher()
         let sut = makeSUT(moviesFetcher: fetcher, router: SpyFavouriteMoviesRouter())
 
         // when
-        sut.fetchAllMovies()
+        sut.loadMovies()
+
+        // then
+        XCTAssertEqual(fetcher.receivedMessages, [.fetchFavouritesMovies])
+    }
+}
+
+// MARK: - Dislike Movie
+extension FavouriteMoviesCollectionViewModelTests {
+    func test_didTapDislikeCell_withFirstIdentifier_shouldCallMoviesDeleterWithSelectedIdentifier() {
+        // given
+        let deleter = SpyFavouriteMoviesDeleter()
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesDeleter: deleter)
+        loadDataSource(from: sut)
+        let itemIdentifier = getIdentifier(from: sut.favouriteMovies, forItemIndex: 0)
+
+        // when
+        sut.didTapDislikeCell(from: itemIdentifier)
+
+        // then
+        XCTAssertEqual(deleter.receivedMessages, [.deleteMovie(with: itemIdentifier)])
+    }
+
+    func test_didTapDislikeCell_withThirdIdentifier_shouldCallMoviesDeleterWithSelectedIdentifier() {
+        // given
+        let deleter = SpyFavouriteMoviesDeleter()
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesDeleter: deleter)
+        loadDataSource(from: sut)
+        let itemIdentifier = getIdentifier(from: sut.favouriteMovies, forItemIndex: 2)
+
+        // when
+        sut.didTapDislikeCell(from: itemIdentifier)
+
+        // then
+        XCTAssertEqual(deleter.receivedMessages, [.deleteMovie(with: itemIdentifier)])
+    }
+
+    func test_didTapDislikeCell_withIdentifier_shouldCallMoviesFetcher() {
+        // given
+        let fetcher = SpyFavouriteMoviesFetcher()
+        let sut = makeSUT(moviesFetcher: fetcher)
+
+        // when
+        sut.didTapDislikeCell(from: UUID())
 
         // then
         XCTAssertEqual(fetcher.receivedMessages, [.fetchFavouritesMovies])
@@ -121,11 +170,11 @@ extension FavouriteMoviesCollectionViewModelTests {
 
 // MARK: - Navigate to details screen
 extension FavouriteMoviesCollectionViewModelTests {
-    func test_didSelectMovie_fromFirstIndex_shouldCallRouterWithFirstIndexDataSource() {
+    func test_didSelectMovie_fromFirstIdentifier_shouldCallRouterWithDataSourceFromFirstIdentifier() {
         // given
         let router = SpyFavouriteMoviesRouter()
         let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), router: router)
-        sut.fetchAllMovies()
+        loadDataSource(from: sut)
         let itemIdentifier = getIdentifier(from: sut.favouriteMovies, forItemIndex: 0)
 
         // when
@@ -135,11 +184,11 @@ extension FavouriteMoviesCollectionViewModelTests {
         XCTAssertEqual(router.receivedMessages, [.navigateToDetailsScreen(movieSelected: selectFavouriteMovies(from: 0))])
     }
 
-    func test_didSelectMovie_fromThirdIndex_shouldCallRouterWithThirdIndexDataSource() {
+    func test_didSelectMovie_fromThirdIdentifier_shouldCallRouterWithDataSourceFromThirdIdentifier() {
         // given
         let router = SpyFavouriteMoviesRouter()
         let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), router: router)
-        sut.fetchAllMovies()
+        loadDataSource(from: sut)
         let itemIdentifier = getIdentifier(from: sut.favouriteMovies, forItemIndex: 2)
 
         // when
@@ -153,7 +202,7 @@ extension FavouriteMoviesCollectionViewModelTests {
         // given
         let router = SpyFavouriteMoviesRouter()
         let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), router: router)
-        sut.fetchAllMovies()
+        loadDataSource(from: sut)
 
         // when
         sut.didTapSearch()
@@ -162,12 +211,3 @@ extension FavouriteMoviesCollectionViewModelTests {
         XCTAssertEqual(router.receivedMessages, [.navigateToSearchScreen])
     }
 }
-
-// Functionalites to implement
-/*
- 3. Define a like/unlike button. When unlike clicked should happen:
- 3.1. Delete the film from data source.
- 3.2. Read new data source.
- 3.3. Reload data on screen.
- */
-// Let's go TDD for this screen only
