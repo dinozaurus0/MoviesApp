@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-internal final class FavouritesMoviesHostingController: UIHostingController<FavouriteMoviesCollection> {
-    override init(rootView: FavouriteMoviesCollection) {
+internal final class FavouritesMoviesHostingController: UIHostingController<FavouriteMoviesCollectionView> {
+    override init(rootView: FavouriteMoviesCollectionView) {
         super.init(rootView: rootView)
     }
 
