@@ -17,7 +17,7 @@ internal final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
 
-        let initialViewController = FavouritesMoviesHostingController(rootView: FavouriteMoviesCollection())
+        let initialViewController = FavouritesMoviesHostingController(rootView: FavouriteMoviesCollectionView(cards: []))
         let navigationController = UINavigationController(rootViewController: initialViewController)
 
         window.rootViewController = navigationController

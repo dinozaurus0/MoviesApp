@@ -7,7 +7,8 @@
 
 import Foundation
 
-internal struct PresentableFavouriteMovieCard {
+internal struct PresentableFavouriteMovieCard: Identifiable {
+    let id: UUID
     let title: String
     let description: String
     let image: Data
