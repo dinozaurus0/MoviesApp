@@ -7,7 +7,7 @@
 
 import MoviesApp
 
-final class StubFavouriteMoviesFetcher: FavouriteMoviesFetcher {
+internal final class StubFavouriteMoviesFetcher: FavouriteMoviesFetcher {
 
     private let expectedResult: FavouriteMoviesFetcher.Result
 
@@ -15,7 +15,7 @@ final class StubFavouriteMoviesFetcher: FavouriteMoviesFetcher {
         self.expectedResult = expectedResult
     }
 
-    func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {
+    internal func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {
         completion(expectedResult)
     }
 }

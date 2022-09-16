@@ -10,14 +10,15 @@ import MoviesApp
 
 private let data = Data()
 
+private struct FetcherError: Error {}
+
 internal final class FavouriteMoviesCollectionViewModelTests: XCTestCase {
 
-    // MARK: - Load favourite data from a service
+    // MARK: - Load movie list from a service
 
-    func test_withEmptyInputFromService_shouldReturnEmptyPresentableUIModels() {
+    func test_withEmptyInput_shouldReturnEmptyPresentableUIModels() {
         // given
-        let fetcher = StubFavouriteMoviesFetcher(expectedResult: Result.success([]))
-        let sut = FavouriteMoviesCollectionViewModel(moviesFetcher: fetcher)
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success([])))
 
         // when
         sut.fetchAllMovies()
@@ -26,16 +27,55 @@ internal final class FavouriteMoviesCollectionViewModelTests: XCTestCase {
         XCTAssertEqual(sut.favouriteMovies, [])
     }
 
-    func test_withValidInputFromService_shouldReturnPresentableUIModels() {
+    func test_withValidInput_shouldReturnPresentableUIModels() {
         // given
-        let fetcher = StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies))
-        let sut = FavouriteMoviesCollectionViewModel(moviesFetcher: fetcher)
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)))
 
         // when
         sut.fetchAllMovies()
 
         // then
         XCTAssertEqual(sut.favouriteMovies, presentableFavouriteMovies)
+    }
+
+    func test_withEmptyInput_shouldShowEmptyInputMessage() {
+        // given
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success([])))
+
+        // when
+        sut.fetchAllMovies()
+
+        // then
+        XCTAssertEqual(sut.noEntryMessage, "No favourite movies to display!")
+    }
+
+    func test_withErrorInput_shouldShowErrorMessage() {
+        // given
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.failure(FetcherError())))
+
+        // when
+        sut.fetchAllMovies()
+
+        // then
+        XCTAssertEqual(sut.noEntryMessage, "There is a problem with movies fetching. Please try later!")
+    }
+
+    func test_withInput_shouldCallMoviesFetcher() {
+        // given
+        let fetcher = SpyFavouriteMoviesFetcher()
+        let sut = makeSUT(moviesFetcher: fetcher)
+
+        // when
+        sut.fetchAllMovies()
+
+        // then
+        XCTAssertEqual(fetcher.receivedMessages, [.fetchFavouritesMovies])
+    }
+
+    // MARK: - Helpers
+
+    private func makeSUT(moviesFetcher: FavouriteMoviesFetcher) -> FavouriteMoviesCollectionViewModel {
+        FavouriteMoviesCollectionViewModel(moviesFetcher: moviesFetcher)
     }
 
     private var favouriteMovies = [
@@ -85,5 +125,7 @@ internal final class FavouriteMoviesCollectionViewModelTests: XCTestCase {
  3.1. Delete the film from data source.
  3.2. Read new data source.
  3.3. Reload data on screen.
+ 4. Search for new content
+ 4.1 When search is pressed, we should navigate to the search screen. 
  */
 // Let's go TDD for this screen only

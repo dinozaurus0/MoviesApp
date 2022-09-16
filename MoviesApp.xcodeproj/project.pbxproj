@@ -29,6 +29,7 @@
 		285D268528D4A2B100C736F9 /* FavouriteMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D268428D4A2B100C736F9 /* FavouriteMovie.swift */; };
 		285D268728D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D268628D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift */; };
 		285D268928D4A40300C736F9 /* FavouriteMoviesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D268828D4A40300C736F9 /* FavouriteMoviesFetcher.swift */; };
+		285D268D28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D268C28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		285D268428D4A2B100C736F9 /* FavouriteMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMovie.swift; sourceTree = "<group>"; };
 		285D268628D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubFavouriteMoviesFetcher.swift; sourceTree = "<group>"; };
 		285D268828D4A40300C736F9 /* FavouriteMoviesFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMoviesFetcher.swift; sourceTree = "<group>"; };
+		285D268C28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyFavouriteMoviesFetcher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				285D268628D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift */,
+				285D268C28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift */,
 			);
 			path = TestDoubles;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				285D268728D4A3EA00C736F9 /* StubFavouriteMoviesFetcher.swift in Sources */,
 				285D268028D4948400C736F9 /* FavouriteMoviesCollectionViewModelTests.swift in Sources */,
 				285D268228D4A13200C736F9 /* PresentableFavouriteMovieCardExtension.swift in Sources */,
+				285D268D28D4B0E700C736F9 /* SpyFavouriteMoviesFetcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

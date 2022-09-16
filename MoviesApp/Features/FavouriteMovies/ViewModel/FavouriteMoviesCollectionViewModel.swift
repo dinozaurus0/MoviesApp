@@ -11,6 +11,7 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
 
     // MARK: - Properties
     @Published public var favouriteMovies: [PresentableFavouriteMovieCard] = []
+    @Published public var noEntryMessage: String = ""
 
     private let moviesFetcher: FavouriteMoviesFetcher
 
@@ -26,13 +27,21 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
 
             switch result {
             case let .success(movies):
-                self.favouriteMovies = self.convertFavouriteMoviesToPresentableItems(movies)
-            case .failure: break
+                self.handleSuccessfulMoviesFetch(with: movies)
+            case .failure:
+                self.noEntryMessage = "There is a problem with movies fetching. Please try later!"
             }
         }
     }
 
     // MARK: - Private Methods
+    private func handleSuccessfulMoviesFetch(with favouriteMovies: [FavouriteMovie]) {
+        if favouriteMovies.isEmpty {
+            self.noEntryMessage = "No favourite movies to display!"
+        }
+        self.favouriteMovies = self.convertFavouriteMoviesToPresentableItems(favouriteMovies)
+    }
+
     private func convertFavouriteMoviesToPresentableItems(_ movies: [FavouriteMovie]) -> [PresentableFavouriteMovieCard] {
         movies.map { movie in
             PresentableFavouriteMovieCard(id: UUID(), title: movie.title, description: movie.description, image: movie.image, rating: String(movie.rating) )
