@@ -35,6 +35,13 @@
 		285D269428D4BD7F00C736F9 /* FavouriteMovieExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269328D4BD7F00C736F9 /* FavouriteMovieExtension.swift */; };
 		285D269628D4CD3000C736F9 /* FavouriteMoviesDeleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269528D4CD3000C736F9 /* FavouriteMoviesDeleter.swift */; };
 		285D269828D4CD7B00C736F9 /* SpyFavouriteMoviesDeleter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269728D4CD7B00C736F9 /* SpyFavouriteMoviesDeleter.swift */; };
+		285D269A28D4EF0600C736F9 /* FavouriteMoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269928D4EF0600C736F9 /* FavouriteMoviesService.swift */; };
+		285D269D28D4EFB300C736F9 /* CoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269C28D4EFB300C736F9 /* CoreDataHandler.swift */; };
+		285D26A328D4F41900C736F9 /* CoreDataHandlerDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26A228D4F41900C736F9 /* CoreDataHandlerDelete.swift */; };
+		285D26A528D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26A428D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift */; };
+		285D26A728D4FAA400C736F9 /* CoreDataHandlerFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26A628D4FAA400C736F9 /* CoreDataHandlerFetch.swift */; };
+		285D26A928D4FB1E00C736F9 /* DatabaseErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26A828D4FB1E00C736F9 /* DatabaseErrors.swift */; };
+		285D26AB28D4FDB000C736F9 /* CoreDataHandlerSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26AA28D4FDB000C736F9 /* CoreDataHandlerSave.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +94,13 @@
 		285D269328D4BD7F00C736F9 /* FavouriteMovieExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMovieExtension.swift; sourceTree = "<group>"; };
 		285D269528D4CD3000C736F9 /* FavouriteMoviesDeleter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMoviesDeleter.swift; sourceTree = "<group>"; };
 		285D269728D4CD7B00C736F9 /* SpyFavouriteMoviesDeleter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyFavouriteMoviesDeleter.swift; sourceTree = "<group>"; };
+		285D269928D4EF0600C736F9 /* FavouriteMoviesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMoviesService.swift; sourceTree = "<group>"; };
+		285D269C28D4EFB300C736F9 /* CoreDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandler.swift; sourceTree = "<group>"; };
+		285D26A228D4F41900C736F9 /* CoreDataHandlerDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandlerDelete.swift; sourceTree = "<group>"; };
+		285D26A428D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandlerContextAccess.swift; sourceTree = "<group>"; };
+		285D26A628D4FAA400C736F9 /* CoreDataHandlerFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandlerFetch.swift; sourceTree = "<group>"; };
+		285D26A828D4FB1E00C736F9 /* DatabaseErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseErrors.swift; sourceTree = "<group>"; };
+		285D26AA28D4FDB000C736F9 /* CoreDataHandlerSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandlerSave.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				285D266428D34E0100C736F9 /* AppLifecycle */,
+				285D269B28D4EF5000C736F9 /* DatabaseHandler */,
 				285D267328D36BB900C736F9 /* Extensions */,
 				285D266528D358D300C736F9 /* Features */,
 				285D266F28D36A5600C736F9 /* Resources */,
@@ -255,6 +270,7 @@
 				285D268428D4A2B100C736F9 /* FavouriteMovie.swift */,
 				285D268828D4A40300C736F9 /* FavouriteMoviesFetcher.swift */,
 				285D269528D4CD3000C736F9 /* FavouriteMoviesDeleter.swift */,
+				285D269928D4EF0600C736F9 /* FavouriteMoviesService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -286,6 +302,19 @@
 				285D268F28D4BCC400C736F9 /* FavouriteMoviesRouter.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		285D269B28D4EF5000C736F9 /* DatabaseHandler */ = {
+			isa = PBXGroup;
+			children = (
+				285D26A828D4FB1E00C736F9 /* DatabaseErrors.swift */,
+				285D269C28D4EFB300C736F9 /* CoreDataHandler.swift */,
+				285D26A428D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift */,
+				285D26A228D4F41900C736F9 /* CoreDataHandlerDelete.swift */,
+				285D26A628D4FAA400C736F9 /* CoreDataHandlerFetch.swift */,
+				285D26AA28D4FDB000C736F9 /* CoreDataHandlerSave.swift */,
+			);
+			path = DatabaseHandler;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -422,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				285D266C28D362B000C736F9 /* FavouriteMovieCell.swift in Sources */,
+				285D269D28D4EFB300C736F9 /* CoreDataHandler.swift in Sources */,
 				285D269028D4BCC400C736F9 /* FavouriteMoviesRouter.swift in Sources */,
 				285D267D28D4927200C736F9 /* FavouriteMoviesCollectionViewModel.swift in Sources */,
 				285D263928D34BED00C736F9 /* ViewController.swift in Sources */,
@@ -429,11 +459,17 @@
 				285D266A28D35B2500C736F9 /* FavouritesMoviesHostingController.swift in Sources */,
 				285D267728D48FF200C736F9 /* PreviewProviderExtension.swift in Sources */,
 				285D263528D34BED00C736F9 /* AppDelegate.swift in Sources */,
+				285D26A928D4FB1E00C736F9 /* DatabaseErrors.swift in Sources */,
+				285D26A528D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift in Sources */,
 				285D268528D4A2B100C736F9 /* FavouriteMovie.swift in Sources */,
 				285D266828D35AA800C736F9 /* FavouriteMoviesCollectionView.swift in Sources */,
 				285D263728D34BED00C736F9 /* SceneDelegate.swift in Sources */,
+				285D26A728D4FAA400C736F9 /* CoreDataHandlerFetch.swift in Sources */,
 				285D266E28D3631F00C736F9 /* PresentableFavouriteMovieCard.swift in Sources */,
+				285D26AB28D4FDB000C736F9 /* CoreDataHandlerSave.swift in Sources */,
 				285D269628D4CD3000C736F9 /* FavouriteMoviesDeleter.swift in Sources */,
+				285D269A28D4EF0600C736F9 /* FavouriteMoviesService.swift in Sources */,
+				285D26A328D4F41900C736F9 /* CoreDataHandlerDelete.swift in Sources */,
 				285D267528D36BC500C736F9 /* ImageExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
