@@ -56,8 +56,12 @@ extension FavouriteMoviesCollectionViewModel {
     }
 }
 
-// MARK: - Navigate to details
+// MARK: - Navigate to details & search screen
 extension FavouriteMoviesCollectionViewModel {
+    public func didTapSearch() {
+        router.navigateToSearchScreen()
+    }
+
     public func didSelectCell(with identifier: UUID) {
         guard let presentableFavouriteMovie = findPresentableMovie(using: identifier) else { return }
         let favouriteMovie = convertFromPresentableToFavouriteMovie(presentableFavouriteMovie)

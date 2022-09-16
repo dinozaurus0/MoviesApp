@@ -121,7 +121,7 @@ extension FavouriteMoviesCollectionViewModelTests {
 
 // MARK: - Navigate to details screen
 extension FavouriteMoviesCollectionViewModelTests {
-    func test_didSelectMovie_fromFirstIndex_shouldReturnFirstIndexDataSource() {
+    func test_didSelectMovie_fromFirstIndex_shouldCallRouterWithFirstIndexDataSource() {
         // given
         let router = SpyFavouriteMoviesRouter()
         let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), router: router)
@@ -135,7 +135,7 @@ extension FavouriteMoviesCollectionViewModelTests {
         XCTAssertEqual(router.receivedMessages, [.navigateToDetailsScreen(movieSelected: selectFavouriteMovies(from: 0))])
     }
 
-    func test_didSelectMovie_fromThirdIndex_shouldReturnThirdIndexDataSource() {
+    func test_didSelectMovie_fromThirdIndex_shouldCallRouterWithThirdIndexDataSource() {
         // given
         let router = SpyFavouriteMoviesRouter()
         let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), router: router)
@@ -148,6 +148,19 @@ extension FavouriteMoviesCollectionViewModelTests {
         // then
         XCTAssertEqual(router.receivedMessages, [.navigateToDetailsScreen(movieSelected: selectFavouriteMovies(from: 2))])
     }
+
+    func test_didTapSearch_shouldCallRouter() {
+        // given
+        let router = SpyFavouriteMoviesRouter()
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), router: router)
+        sut.fetchAllMovies()
+
+        // when
+        sut.didTapSearch()
+
+        // then
+        XCTAssertEqual(router.receivedMessages, [.navigateToSearchScreen])
+    }
 }
 
 // Functionalites to implement
@@ -156,7 +169,5 @@ extension FavouriteMoviesCollectionViewModelTests {
  3.1. Delete the film from data source.
  3.2. Read new data source.
  3.3. Reload data on screen.
- 4. Search for new content
- 4.1 When search is pressed, we should navigate to the search screen. 
  */
 // Let's go TDD for this screen only

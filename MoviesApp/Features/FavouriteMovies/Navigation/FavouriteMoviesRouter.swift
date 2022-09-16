@@ -8,5 +8,6 @@
 import Foundation
 
 public protocol FavouriteMoviesRouter {
+    func navigateToSearchScreen()
     func navigateToDetailsScreen(movieSelected: FavouriteMovie)
 }
