@@ -11,5 +11,5 @@ internal struct PresentableFavouriteMovieCard {
     let title: String
     let description: String
     let image: Data
-    let rating: Float
+    let rating: String
 }
