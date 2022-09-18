@@ -7,6 +7,8 @@
 
 import CoreData
 
+
+// TODO: This might not be neede anymore ??
 extension CoreDataHandler {
     internal func delete(objects: [NSManagedObject], in context: NSManagedObjectContext) {
         context.perform { [weak self] in

@@ -1,5 +1,5 @@
 //
-//  SpyFavouriteMoviesDeleter.swift
+//  SpyFavouriteMoviesUpdater.swift
 //  MoviesAppTests
 //
 //  Created by Vlad Grigore Sima on 16.09.2022.
@@ -8,7 +8,7 @@
 import Foundation
 import MoviesApp
 
-internal final class SpyFavouriteMoviesDeleter: FavouriteMoviesDeleter {
+internal final class SpyFavouriteMoviesUpdater: FavouriteMoviesUpdater {
 
     internal enum ReceivedMessage: Equatable {
         case deleteMovie(with: UUID)
@@ -16,7 +16,7 @@ internal final class SpyFavouriteMoviesDeleter: FavouriteMoviesDeleter {
 
     internal var receivedMessages: [ReceivedMessage] = []
 
-    internal func deleteMovie(with identifier: UUID) {
+    internal func dislikeMovie(with identifier: UUID)  {
         receivedMessages.append(.deleteMovie(with: identifier))
     }
 }

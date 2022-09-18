@@ -19,7 +19,7 @@ internal final class CoreDataHandler {
     // MARK: - Properties
     internal let persistenceContainer: NSPersistentContainer
     internal let mainContext: NSManagedObjectContext
-    private static var databaseName: String = "DungeonMasterModel"
+    private static var databaseName: String = "MovieAppsModel"
     private static var storageType: StorageType = .disk
 
     private static var sharedDatabaseService: CoreDataHandler = {

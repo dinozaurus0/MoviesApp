@@ -14,9 +14,11 @@ private struct FetcherError: Error {}
 internal final class FavouriteMoviesCollectionViewModelTests: XCTestCase {
     // MARK: - Helpers
 
-    private func makeSUT(moviesFetcher: FavouriteMoviesFetcher, moviesDeleter: FavouriteMoviesDeleter? = nil, router: FavouriteMoviesRouter? = nil) -> FavouriteMoviesCollectionViewModel {
+    private func makeSUT(moviesFetcher: FavouriteMoviesFetcher,
+                         moviesUpdater: FavouriteMoviesUpdater? = nil,
+                         router: FavouriteMoviesRouter? = nil) -> FavouriteMoviesCollectionViewModel {
         FavouriteMoviesCollectionViewModel(moviesFetcher: moviesFetcher,
-                                           moviesDeleter: moviesDeleter ?? SpyFavouriteMoviesDeleter(),
+                                           moviesUpdater: moviesUpdater ?? SpyFavouriteMoviesUpdater(),
                                            router: router ?? SpyFavouriteMoviesRouter())
     }
 
@@ -129,8 +131,8 @@ extension FavouriteMoviesCollectionViewModelTests {
 extension FavouriteMoviesCollectionViewModelTests {
     func test_didTapDislikeCell_withFirstIdentifier_shouldCallMoviesDeleterWithSelectedIdentifier() {
         // given
-        let deleter = SpyFavouriteMoviesDeleter()
-        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesDeleter: deleter)
+        let updater = SpyFavouriteMoviesUpdater()
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesUpdater: updater)
         loadDataSource(from: sut)
         let itemIdentifier = getIdentifier(from: sut.favouriteMovies, forItemIndex: 0)
 
@@ -138,13 +140,13 @@ extension FavouriteMoviesCollectionViewModelTests {
         sut.didTapDislikeCell(from: itemIdentifier)
 
         // then
-        XCTAssertEqual(deleter.receivedMessages, [.deleteMovie(with: itemIdentifier)])
+        XCTAssertEqual(updater.receivedMessages, [.deleteMovie(with: itemIdentifier)])
     }
 
     func test_didTapDislikeCell_withThirdIdentifier_shouldCallMoviesDeleterWithSelectedIdentifier() {
         // given
-        let deleter = SpyFavouriteMoviesDeleter()
-        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesDeleter: deleter)
+        let updater = SpyFavouriteMoviesUpdater()
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesUpdater: updater)
         loadDataSource(from: sut)
         let itemIdentifier = getIdentifier(from: sut.favouriteMovies, forItemIndex: 2)
 
@@ -152,7 +154,7 @@ extension FavouriteMoviesCollectionViewModelTests {
         sut.didTapDislikeCell(from: itemIdentifier)
 
         // then
-        XCTAssertEqual(deleter.receivedMessages, [.deleteMovie(with: itemIdentifier)])
+        XCTAssertEqual(updater.receivedMessages, [.deleteMovie(with: itemIdentifier)])
     }
 
     func test_didTapDislikeCell_withIdentifier_shouldCallMoviesFetcher() {
