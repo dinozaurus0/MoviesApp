@@ -8,14 +8,21 @@
 import UIKit
 
 internal final class MainRouter {
-    internal func startApp(window: UIWindow) {
-        let favouriteMoviesCollectionView = FavouriteMoviesCollectionView(cards: [])
-        let initialViewController = FavouritesMoviesHostingController(rootView: favouriteMoviesCollectionView, viewModel: )
 
+    // MARK: - Properties
+    private let favouriteMoviesComposer: FavouriteMoviesComposer
+
+    // MARK: - Init
+    internal init(favouriteMoviesComposer: FavouriteMoviesComposer) {
+        self.favouriteMoviesComposer = favouriteMoviesComposer
+    }
+
+    // MARK: - Start app
+    internal func startApp(window: UIWindow) {
+        let initialViewController = favouriteMoviesComposer.navigateToFavouriteMovies()
         let navigationController = UINavigationController(rootViewController: initialViewController)
 
         window.rootViewController = navigationController
-
         window.makeKeyAndVisible()
     }
 }

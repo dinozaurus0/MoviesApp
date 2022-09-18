@@ -14,8 +14,9 @@ internal final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private let mainRouter: MainRouter
 
     // MARK: - Init
-    override public init() {
-        self.mainRouter = MainRouter()
+    override internal init() {
+        let mainComposer = MainComposer()
+        self.mainRouter = MainRouter(favouriteMoviesComposer: mainComposer)
         super.init()
     }
 
