@@ -11,15 +11,18 @@ internal struct FavouriteMovieCell: View {
     internal let dataSource: PresentableFavouriteMovieCard
 
     internal var body: some View {
-        ZStack {
+        VStack {
             Image(data: dataSource.image)?
                 .resizable()
+                .aspectRatio(contentMode: .fit)
             VStack {
                 Spacer()
                 textStacks
-                ratingView
             }
+            ratingView
         }
+        .border(.gray)
+        .cornerRadius(5.0)
     }
 
     private var textStacks: some View {
@@ -29,12 +32,13 @@ internal struct FavouriteMovieCell: View {
                 .fontWeight(.bold)
             Text(dataSource.description)
                 .font(Font.body)
-                .multilineTextAlignment(.center)
-        }.foregroundColor(.white)
+                .multilineTextAlignment(.leading)
+                .lineLimit(4)
+        }.padding(.horizontal, 10.0)
     }
 
     private var ratingView: some View {
-        HStack(spacing: 0.0) {
+        HStack(alignment: .center, spacing: 5.0) {
             Spacer()
             Image("Rating")
                 .resizable()
@@ -44,6 +48,7 @@ internal struct FavouriteMovieCell: View {
                 .padding(.trailing, 20.0)
                 .foregroundColor(.white)
         }
+        .padding(.bottom, 10.0)
     }
 }
 

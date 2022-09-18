@@ -13,17 +13,17 @@ internal struct FavouriteMoviesCollectionView: View {
         GridItem(.flexible())
     ]
 
-    internal let cards: [PresentableFavouriteMovieCard]
+    @ObservedObject private var viewModel: FavouriteMoviesCollectionViewModel
 
-    internal init(cards: [PresentableFavouriteMovieCard]) {
-        self.cards = cards
+    internal init(viewModel: FavouriteMoviesCollectionViewModel) {
+        self.viewModel = viewModel
     }
 
     var body: some View {
         ScrollView() {
             LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(cards) { card in
-                    FavouriteMovieCell(dataSource: card)
+                ForEach(viewModel.favouriteMovies) { movie in
+                    FavouriteMovieCell(dataSource: movie)
                 }
             }
         }
@@ -32,7 +32,15 @@ internal struct FavouriteMoviesCollectionView: View {
 
 internal struct FavouriteMoviesCollectionView_Previews: PreviewProvider {
     static var previews: some View {
-        FavouriteMoviesCollectionView(cards: cards)
+        FavouriteMoviesCollectionView(viewModel: createViewModel())
+    }
+
+    private static func createViewModel() -> FavouriteMoviesCollectionViewModel {
+        let favouriteMoviesService = DummyFavouriteMoviesService()
+
+        return FavouriteMoviesCollectionViewModel(moviesFetcher: favouriteMoviesService,
+                                                  moviesUpdater: favouriteMoviesService,
+                                                  router: DummyFavouriteMoviesRouter())
     }
 
     private static var cards = [

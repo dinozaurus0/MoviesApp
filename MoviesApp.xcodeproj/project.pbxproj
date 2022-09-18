@@ -47,6 +47,7 @@
 		28CA8BF428D74F8000F23658 /* MainComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8BF328D74F8000F23658 /* MainComposer.swift */; };
 		28CA8BF728D76C2C00F23658 /* FavouriteMoviesComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8BF628D76C2C00F23658 /* FavouriteMoviesComposer.swift */; };
 		28CA8BF928D76CC500F23658 /* MainComposerFavouriteMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8BF828D76CC400F23658 /* MainComposerFavouriteMovies.swift */; };
+		28CA8BFB28D7731500F23658 /* PreviewFavouriteDummies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8BFA28D7731500F23658 /* PreviewFavouriteDummies.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 		28CA8BF328D74F8000F23658 /* MainComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainComposer.swift; sourceTree = "<group>"; };
 		28CA8BF628D76C2C00F23658 /* FavouriteMoviesComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMoviesComposer.swift; sourceTree = "<group>"; };
 		28CA8BF828D76CC400F23658 /* MainComposerFavouriteMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainComposerFavouriteMovies.swift; sourceTree = "<group>"; };
+		28CA8BFA28D7731500F23658 /* PreviewFavouriteDummies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewFavouriteDummies.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 				285D266728D35AA800C736F9 /* FavouriteMoviesCollectionView.swift */,
 				285D266928D35B2500C736F9 /* FavouritesMoviesHostingController.swift */,
 				285D266B28D362B000C736F9 /* FavouriteMovieCell.swift */,
+				28CA8BFA28D7731500F23658 /* PreviewFavouriteDummies.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				285D266E28D3631F00C736F9 /* PresentableFavouriteMovieCard.swift in Sources */,
 				285D26AB28D4FDB000C736F9 /* CoreDataHandlerSave.swift in Sources */,
 				285D269628D4CD3000C736F9 /* FavouriteMoviesUpdater.swift in Sources */,
+				28CA8BFB28D7731500F23658 /* PreviewFavouriteDummies.swift in Sources */,
 				285D269A28D4EF0600C736F9 /* FavouriteMoviesService.swift in Sources */,
 				285D26A328D4F41900C736F9 /* CoreDataHandlerDelete.swift in Sources */,
 				285D267528D36BC500C736F9 /* ImageExtension.swift in Sources */,

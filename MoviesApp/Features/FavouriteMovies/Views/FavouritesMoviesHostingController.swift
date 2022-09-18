@@ -27,6 +27,11 @@ internal final class FavouritesMoviesHostingController: UIHostingController<Favo
         super.viewDidLoad()
 
         setupNavigationBar()
+    }
+
+    internal override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
         viewModel.loadMovies()
     }
 
