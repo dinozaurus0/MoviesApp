@@ -57,5 +57,7 @@ extension FavouriteMoviesService: FavouriteMoviesFetcher {
 }
 
 extension FavouriteMoviesService: FavouriteMoviesUpdater {
-    public func dislikeMovie(with identifier: UUID) {}
+    public func dislikeMovie(with identifier: UUID) {
+        
+    }
 }

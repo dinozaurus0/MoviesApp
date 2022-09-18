@@ -8,13 +8,20 @@
 import SwiftUI
 
 internal struct FavouriteMovieCell: View {
-    internal let dataSource: PresentableFavouriteMovieCard
+    // MARK: - Properties
+    private let dataSource: PresentableFavouriteMovieCard
+    private let didTapDislike: (UUID) -> Void
 
+    // MARK: - Init
+    internal init(dataSource: PresentableFavouriteMovieCard, didTapDislike: @escaping (UUID) -> Void) {
+        self.dataSource = dataSource
+        self.didTapDislike = didTapDislike
+    }
+
+    // MARK: - Body
     internal var body: some View {
         VStack {
-            Image(data: dataSource.image)?
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+            imageView
             VStack {
                 Spacer()
                 textStacks
@@ -23,6 +30,22 @@ internal struct FavouriteMovieCell: View {
         }
         .border(.gray)
         .cornerRadius(5.0)
+    }
+
+    private var imageView: some View {
+        ZStack(alignment: .topTrailing) {
+            Image(data: dataSource.image)?
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+            Button {
+                didTapDislike(dataSource.id)
+            } label: {
+                Image("DislikeImage")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50.0, height: 50.0)
+            }
+        }
     }
 
     private var textStacks: some View {
@@ -39,14 +62,14 @@ internal struct FavouriteMovieCell: View {
 
     private var ratingView: some View {
         HStack(alignment: .center, spacing: 5.0) {
-            Spacer()
-            Image("Rating")
+            Image("RatingImage")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 35.0, height: 35.0)
+                .padding(.leading, 20.0)
             Text(dataSource.rating)
-                .padding(.trailing, 20.0)
                 .foregroundColor(.white)
+            Spacer()
         }
         .padding(.bottom, 10.0)
     }
@@ -54,7 +77,7 @@ internal struct FavouriteMovieCell: View {
 
 internal struct FavouriteMovieCell_Previews: PreviewProvider {
     static var previews: some View {
-        FavouriteMovieCell(dataSource: dataSource)
+        FavouriteMovieCell(dataSource: dataSource, didTapDislike: { _ in })
             .previewLayout(.fixed(width: 250, height: 450))
     }
 
