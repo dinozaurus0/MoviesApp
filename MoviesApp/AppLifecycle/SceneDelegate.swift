@@ -11,18 +11,20 @@ internal final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // MARK: - Properties
     internal var window: UIWindow?
+    private let mainRouter: MainRouter
+
+    // MARK: - Init
+    override public init() {
+        self.mainRouter = MainRouter()
+        super.init()
+    }
 
     // MARK: - UIWindowSceneDelegate
     internal func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
 
-        let initialViewController = FavouritesMoviesHostingController(rootView: FavouriteMoviesCollectionView(cards: []))
-        let navigationController = UINavigationController(rootViewController: initialViewController)
-
-        window.rootViewController = navigationController
-
+        self.mainRouter.startApp(window: window)
         self.window = window
-        window.makeKeyAndVisible()
     }
 }

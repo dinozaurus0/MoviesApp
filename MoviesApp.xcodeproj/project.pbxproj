@@ -43,6 +43,8 @@
 		285D26A928D4FB1E00C736F9 /* DatabaseErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26A828D4FB1E00C736F9 /* DatabaseErrors.swift */; };
 		285D26AB28D4FDB000C736F9 /* CoreDataHandlerSave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26AA28D4FDB000C736F9 /* CoreDataHandlerSave.swift */; };
 		285D26AF28D7388100C736F9 /* MovieAppsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 285D26AD28D7388100C736F9 /* MovieAppsModel.xcdatamodeld */; };
+		285D26B228D74D5100C736F9 /* MainRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26B128D74D5100C736F9 /* MainRouter.swift */; };
+		28CA8BF428D74F8000F23658 /* MainComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8BF328D74F8000F23658 /* MainComposer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +105,8 @@
 		285D26A828D4FB1E00C736F9 /* DatabaseErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseErrors.swift; sourceTree = "<group>"; };
 		285D26AA28D4FDB000C736F9 /* CoreDataHandlerSave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandlerSave.swift; sourceTree = "<group>"; };
 		285D26AE28D7388100C736F9 /* MovieApps.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieApps.xcdatamodel; sourceTree = "<group>"; };
+		285D26B128D74D5100C736F9 /* MainRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRouter.swift; sourceTree = "<group>"; };
+		28CA8BF328D74F8000F23658 /* MainComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainComposer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +193,8 @@
 			children = (
 				285D263428D34BED00C736F9 /* AppDelegate.swift */,
 				285D263628D34BED00C736F9 /* SceneDelegate.swift */,
+				285D26B128D74D5100C736F9 /* MainRouter.swift */,
+				28CA8BF328D74F8000F23658 /* MainComposer.swift */,
 			);
 			path = AppLifecycle;
 			sourceTree = "<group>";
@@ -262,7 +268,6 @@
 			isa = PBXGroup;
 			children = (
 				285D268B28D4A5C000C736F9 /* FavouriteMovies */,
-				285D268A28D4A5B600C736F9 /* TestDoubles */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -292,9 +297,9 @@
 		285D268B28D4A5C000C736F9 /* FavouriteMovies */ = {
 			isa = PBXGroup;
 			children = (
+				285D26B028D7460D00C736F9 /* Utils */,
+				285D268A28D4A5B600C736F9 /* TestDoubles */,
 				285D267F28D4948400C736F9 /* FavouriteMoviesCollectionViewModelTests.swift */,
-				285D268128D4A13200C736F9 /* PresentableFavouriteMovieCardExtension.swift */,
-				285D269328D4BD7F00C736F9 /* FavouriteMovieExtension.swift */,
 			);
 			path = FavouriteMovies;
 			sourceTree = "<group>";
@@ -326,6 +331,15 @@
 				285D26AD28D7388100C736F9 /* MovieAppsModel.xcdatamodeld */,
 			);
 			path = DatabaseSchema;
+			sourceTree = "<group>";
+		};
+		285D26B028D7460D00C736F9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				285D268128D4A13200C736F9 /* PresentableFavouriteMovieCardExtension.swift */,
+				285D269328D4BD7F00C736F9 /* FavouriteMovieExtension.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -471,6 +485,7 @@
 				285D267728D48FF200C736F9 /* PreviewProviderExtension.swift in Sources */,
 				285D263528D34BED00C736F9 /* AppDelegate.swift in Sources */,
 				285D26A928D4FB1E00C736F9 /* DatabaseErrors.swift in Sources */,
+				28CA8BF428D74F8000F23658 /* MainComposer.swift in Sources */,
 				285D26A528D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift in Sources */,
 				285D268528D4A2B100C736F9 /* FavouriteMovie.swift in Sources */,
 				285D26AF28D7388100C736F9 /* MovieAppsModel.xcdatamodeld in Sources */,
@@ -483,6 +498,7 @@
 				285D269A28D4EF0600C736F9 /* FavouriteMoviesService.swift in Sources */,
 				285D26A328D4F41900C736F9 /* CoreDataHandlerDelete.swift in Sources */,
 				285D267528D36BC500C736F9 /* ImageExtension.swift in Sources */,
+				285D26B228D74D5100C736F9 /* MainRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
