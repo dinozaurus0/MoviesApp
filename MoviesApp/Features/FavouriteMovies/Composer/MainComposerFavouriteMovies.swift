@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 extension MainComposer: FavouriteMoviesComposer {
-    internal func navigateToFavouriteMovies() -> FavouritesMoviesHostingController {
+    internal func navigateToFavouriteMovies(navigationStack: UINavigationController) -> FavouritesMoviesHostingController {
         addDummyThingsToCoredata()
         let coredataHandler = CoreDataHandler.shatedInstance()
         let updateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
@@ -19,10 +19,12 @@ extension MainComposer: FavouriteMoviesComposer {
                                                    updateContext: updateContext,
                                                    databaseHandler: coredataHandler)
 
+        let router = FavouriteMoviesNavigationRouter(searchMoviesComposer: self,
+                                                     navigationController: navigationStack)
+
         let viewModel = FavouriteMoviesCollectionViewModel(moviesFetcher: moviesService,
                                                            moviesUpdater: moviesService,
-                                                           router: DummyClass())
-
+                                                           router: router)
 
         let favouriteMoviesCollectionView = FavouriteMoviesCollectionView(viewModel: viewModel)
         let favouriteMoviesViewController = FavouritesMoviesHostingController(rootView: favouriteMoviesCollectionView,

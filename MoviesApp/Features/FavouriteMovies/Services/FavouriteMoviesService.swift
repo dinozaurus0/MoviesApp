@@ -80,7 +80,7 @@ extension FavouriteMoviesService: FavouriteMoviesUpdater {
             completion(.failure(error))
         }
     }
-
+    
     private func dislikeEntities(using entities: [MovieEntity]) {
         entities.forEach { entity in
             entity.isFavourite = false
