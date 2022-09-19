@@ -19,6 +19,6 @@ internal final class SearchFieldDelegate: NSObject {
 
 extension SearchFieldDelegate: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("\(searchBar.text)")
+        delegate.didUpdateInputField(with: searchBar.text ?? "")
     }
 }

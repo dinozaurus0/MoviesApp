@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal final class SearchMoviesHostingController: UIHostingController<SearchMoviesListView> {
+internal final class SearchMoviesHostingController: UIHostingController<SearchMovieView> {
 
     // MARK: - Properties
     private let viewModel: SearchMoviesViewModel
@@ -15,10 +15,9 @@ internal final class SearchMoviesHostingController: UIHostingController<SearchMo
     private let didTapCloseButton: () -> Void
 
     // MARK: - Init
-    // Search bar injected
     internal init(viewModel: SearchMoviesViewModel,
                   searchBar: UISearchBar,
-                  rootView: SearchMoviesListView,
+                  rootView: SearchMovieView,
                   didTapCloseButton: @escaping () -> Void) {
 
         self.viewModel = viewModel
@@ -37,6 +36,7 @@ internal final class SearchMoviesHostingController: UIHostingController<SearchMo
         super.viewDidLoad()
 
         setupNavigationBarItems()
+        viewModel.loadView()
     }
 
     private func setupNavigationBarItems() {

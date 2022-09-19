@@ -20,7 +20,7 @@ extension MainComposer: SearchMoviesComposer {
 
         let hostingController = SearchMoviesHostingController(viewModel: viewModel,
                                                               searchBar: searchBar,
-                                                              rootView: SearchMoviesListView()) { [weak self, weak searchFieldDelegate] in
+                                                              rootView: SearchMovieView(viewModel: viewModel)) { [weak self, weak searchFieldDelegate] in
             guard let self = self, let searchFieldDelegate = searchFieldDelegate else { return }
 
             self.unregister(object: searchFieldDelegate)
