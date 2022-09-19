@@ -21,25 +21,31 @@ internal final class MovieFetcherService: MovieFetcher {
 
     // MARK: - MovieFinder
     func find(by title: String, completion: @escaping (MovieFetcher.Result) -> Void) {
-        movieFinder.find(by: title) { result in
+        movieFinder.find(by: title) { [weak self] result in
+            guard let self = self else { return }
+
             switch result {
             case .success(let apiModel):
-                self.assetsDownloader.download(path: apiModel.imagePath) { result in
-                    switch result {
-                    case .success(let imageData):
-                        let mov = Movie(title: apiModel.title, description: apiModel.description, image: imageData, rating: apiModel.rating)
-                    case .failure(let failure):
-                        break
-                    }
-                }
-            case .failure(let failure):
-                break
+                self.handleSuccessfulMovieDownload(model: apiModel, completion: completion)
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
-}
 
-// Transport layer solve issue
-// Split this into another 2 service, one fecthes raw data the other the image
-// merge them back together
-// Update UI
+    private func handleSuccessfulMovieDownload(model: APIMovie, completion: @escaping (MovieFetcher.Result) -> Void) {
+        downloadImageAsset(imagePath: model.imagePath) { result in
+            let movieResult = result.map { imageData in
+                Movie(title: model.title, description: model.description, image: imageData, rating: model.rating)
+            }
+
+            completion(movieResult)
+        }
+    }
+
+    private func downloadImageAsset(imagePath: String, completion: @escaping (Result<Data, Error>) -> Void) {
+        assetsDownloader.download(path: imagePath) { result in
+            completion(result)
+        }
+    }
+}

@@ -11,11 +11,8 @@ internal enum MovieFinderMapper {
 
     // MARK: - Public Method
     internal static func mapToMovies(result: HttpClient.Result) -> MovieFinder.Result {
-        switch result {
-        case let .success((data, response)):
+        return result.flatMap { (data: Data, response: HTTPURLResponse) in
             return parseResponse(data: data, response: response)
-        case let .failure(error):
-            return .failure(error)
         }
     }
 
@@ -36,7 +33,8 @@ internal enum MovieFinderMapper {
         do {
             let decodedResult = try JSONDecoder().decode(APIMovie.self, from: data)
             return .success(decodedResult)
-        } catch {
+        } catch(let error) {
+            print(error)
             return .failure(ParseRequestError())
         }
     }

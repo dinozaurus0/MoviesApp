@@ -29,7 +29,10 @@ internal final class MovieFinderService: MovieFinder {
 
     private func createURLComponents(using title: String) -> URLComponents? {
         var urlComponents = URLComponents(string: OMDBApiEndpoints.base.rawValue)
-        urlComponents?.queryItems = [URLQueryItem(name: "t", value: title), URLQueryItem(name: "plot", value: "full")]
+        urlComponents?.queryItems = [
+            URLQueryItem(name: "apiKey", value: OMDBApiKey.value),
+            URLQueryItem(name: "t", value: title),
+            URLQueryItem(name: "plot", value: "full")]
 
         return urlComponents
     }

@@ -10,3 +10,7 @@ import Foundation
 internal enum OMDBApiEndpoints: String {
     case base = "http://www.omdbapi.com"
 }
+
+internal struct OMDBApiKey {
+    static internal let value = "88f791ca"
+}

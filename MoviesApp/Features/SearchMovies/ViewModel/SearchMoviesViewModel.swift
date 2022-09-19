@@ -77,7 +77,7 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
     }
 
     private func showMessageForNetworkFailure() {
-        noEntryMessage = "We couldn't find the movie you are looking for or you have already seem the movie. Try again!"
+        noEntryMessage = "We couldn't find the movie you are looking for or you have already seen the movie. Try again!"
     }
 }
 
