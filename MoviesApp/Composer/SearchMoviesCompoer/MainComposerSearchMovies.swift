@@ -9,10 +9,10 @@ import SwiftUI
 
 extension MainComposer: SearchMoviesComposer {
     func navigateToSearchController(dismissViewController: @escaping () -> Void) -> UINavigationController {
-        let movieFinder = createMovieFinder()
+        let movieFetcher = createMovieFetcherService()
         let searchBar = UISearchBar()
 
-        let viewModel = SearchMoviesViewModel(movieFinder: movieFinder)
+        let viewModel = SearchMoviesViewModel(movieFetcher: movieFetcher)
         let searchFieldDelegate = SearchFieldDelegate(delegate: viewModel)
         searchBar.delegate = searchFieldDelegate
 
@@ -30,8 +30,13 @@ extension MainComposer: SearchMoviesComposer {
         return UINavigationController(rootViewController: hostingController)
     }
 
-    private func createMovieFinder() -> MovieFinder {
+    private func createMovieFetcherService() -> MovieFetcher {
         let httpClient = URLSessionHttpClient(urlSession: URLSession.shared)
-        return MovieFinderService(httpClient: httpClient)
+
+        let movieFinder = MovieFinderService(httpClient: httpClient)
+        let assertDownloader = MovieAssetDownloaderService(httpClient: httpClient)
+        let movieFetcher = MovieFetcherService(assetsDownloader: assertDownloader, movieFinder: movieFinder)
+
+        return MainQueueDecorator(decoratee: movieFetcher)
     }
 }

@@ -13,11 +13,11 @@ internal final class SearchMoviesViewModel: ObservableObject {
     @Published internal var presentableMovie: PresentableMovieDetails?
     @Published internal var shouldShowProgressView: Bool = false
 
-    private let movieFinder: MovieFinder
+    private let movieFetcher: MovieFetcher
 
     // MARK: - Init
-    internal init(movieFinder: MovieFinder) {
-        self.movieFinder = movieFinder
+    internal init(movieFetcher: MovieFetcher) {
+        self.movieFetcher = movieFetcher
     }
 
     // MARK: - Public Methods
@@ -51,18 +51,22 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
     }
 
     private func searchMovie(by title: String) {
-        movieFinder.find(by: title) { [weak self] result in
+        movieFetcher.find(by: title) { [weak self] result in
             guard let self = self else { return }
 
-            switch result {
-            case .success(let movie):
-                self.handleSuccessfulFetch(movie: movie)
-            case .failure:
-                self.showMessageForNetworkFailure()
-            }
-
+            self.handleMovieFinderResult(result)
             self.hideProgressView()
         }
+    }
+
+    private func handleMovieFinderResult(_ result: MovieFetcher.Result) {
+        switch result {
+        case .success(let movie):
+            self.handleSuccessfulFetch(movie: movie)
+        case .failure:
+            self.showMessageForNetworkFailure()
+        }
+
     }
 
     private func handleSuccessfulFetch(movie: Movie) {

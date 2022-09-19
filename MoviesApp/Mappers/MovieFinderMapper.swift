@@ -34,7 +34,7 @@ internal enum MovieFinderMapper {
 
     private static func decodeResponse(from data: Data) -> MovieFinder.Result {
         do {
-            let decodedResult = try JSONDecoder().decode(Movie.self, from: data)
+            let decodedResult = try JSONDecoder().decode(APIMovie.self, from: data)
             return .success(decodedResult)
         } catch {
             return .failure(ParseRequestError())
