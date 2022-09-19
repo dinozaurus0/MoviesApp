@@ -24,6 +24,13 @@ internal struct FavouriteMoviesCollectionView: View {
 
     // MARK: - Body
     var body: some View {
+        ZStack {
+            errorMessageLabel
+            moviesCollectionList
+        }
+    }
+
+    private var moviesCollectionList: some View {
         ScrollView() {
             LazyVGrid(columns: columns, spacing: 20.0) {
                 ForEach(viewModel.favouriteMovies) { movie in
@@ -33,6 +40,12 @@ internal struct FavouriteMoviesCollectionView: View {
                 }
             }
         }
+    }
+
+    private var errorMessageLabel: some View {
+        Text(viewModel.noEntryMessage)
+            .font(Font.body)
+            .fontWeight(.bold)
     }
 }
 

@@ -7,4 +7,14 @@
 
 import Foundation
 
-internal final class MainComposer {}
+internal final class MainComposer {
+    private var container: Set<NSObject> = []
+
+    internal func register(object: NSObject) {
+        container.insert(object)
+    }
+
+    internal func unregister(object: NSObject) {
+        container.remove(object)
+    }
+}

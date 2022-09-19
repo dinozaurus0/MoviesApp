@@ -8,5 +8,5 @@
 import SwiftUI
 
 internal protocol SearchMoviesComposer {
-    func navigateToSearchController() -> UIHostingController<SearchMoviesListView>
+    func navigateToSearchController(dismissViewController: @escaping () -> Void) -> UINavigationController
 }

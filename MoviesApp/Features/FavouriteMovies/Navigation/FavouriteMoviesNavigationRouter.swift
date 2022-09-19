@@ -22,8 +22,10 @@ internal final class FavouriteMoviesNavigationRouter: FavouriteMoviesRouter {
 
     // MARK: - Favourite Movies Router
     internal func navigateToSearchScreen() {
-        let searchViewController = searchMoviesComposer.navigateToSearchController()
-        navigationController.pushViewController(searchViewController, animated: true)
+        let searchViewController = searchMoviesComposer.navigateToSearchController() { [weak self] in
+            self?.navigationController.dismiss(animated: true)
+        }
+        navigationController.present(searchViewController, animated: true)
     }
 
     internal func navigateToDetailsScreen(movieSelected: FavouriteMovie) {}
