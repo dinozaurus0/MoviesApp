@@ -21,8 +21,10 @@ internal final class MovieFinderService: MovieFinder {
     func find(by title: String, completion: @escaping (MovieFinder.Result) -> Void) {
         guard let url = createURLComponents(using: title)?.url else { return }
 
-        // mapper-ul
-        httpClient.executeRequest(url: url, completion: { _ in })
+        httpClient.executeRequest(url: url) { result in
+            let parsedResponse = MovieFinderMapper.mapToMovies(result: result)
+            completion(parsedResponse)
+        }
     }
 
     private func createURLComponents(using title: String) -> URLComponents? {

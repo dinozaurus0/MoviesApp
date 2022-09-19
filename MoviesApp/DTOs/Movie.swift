@@ -7,4 +7,4 @@
 
 import Foundation
 
-internal struct Movie {}
+internal struct Movie: Decodable {}

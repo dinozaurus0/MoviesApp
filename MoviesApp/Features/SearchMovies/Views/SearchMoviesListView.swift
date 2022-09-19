@@ -9,6 +9,6 @@ import SwiftUI
 
 internal struct SearchMoviesListView: View {
     internal var body: some View {
-        Color.blue
+        Color.black
     }
 }
