@@ -10,5 +10,5 @@ import Foundation
 internal protocol HttpClient {
     typealias Result = Swift.Result<(Data, HTTPURLResponse), Error>
 
-    func executeRequest(path: String, completion: @escaping (Result) -> Void)
+    func executeRequest(url: URL, completion: @escaping (Result) -> Void)
 }

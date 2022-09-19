@@ -7,12 +7,6 @@
 
 import Foundation
 
-internal struct InvalidUrlError: Error {
-    internal var localizedDescription: String {
-        "Invalid url for request!"
-    }
-}
-
 internal struct FailedRequestError: Error {
     internal var localizedDescription: String {
         "Request failed!"

@@ -18,12 +18,7 @@ internal final class URLSessionHttpClient: HttpClient {
     }
 
     // MARK: - Http Client
-    internal func executeRequest(path: String, completion: @escaping (HttpClient.Result) -> Void) {
-        guard let url = URL(string: path) else {
-            completion(.failure(InvalidUrlError()))
-            return
-        }
-
+    internal func executeRequest(url: URL, completion: @escaping (HttpClient.Result) -> Void) {
         urlSession.dataTask(with: url) { data, response, error in
             guard let data = data, let response = response as? HTTPURLResponse, error == nil else {
                 completion(.failure(FailedRequestError()))
