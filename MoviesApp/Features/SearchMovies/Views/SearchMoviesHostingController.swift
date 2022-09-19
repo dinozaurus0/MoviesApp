@@ -7,6 +7,4 @@
 
 import SwiftUI
 
-internal final class SearchMoviesHostingController: UIHostingController<SearchMoviesListView> {
-
-}
+internal final class SearchMoviesHostingController: UIHostingController<SearchMoviesListView> {}

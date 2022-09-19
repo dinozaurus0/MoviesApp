@@ -52,6 +52,9 @@
 		28CA8C0328D8359600F23658 /* MainComposerSearchMovies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8C0228D8359600F23658 /* MainComposerSearchMovies.swift */; };
 		28CA8C0628D8360200F23658 /* SearchMoviesHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8C0528D8360200F23658 /* SearchMoviesHostingController.swift */; };
 		28CA8C0828D8362800F23658 /* SearchMoviesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8C0728D8362800F23658 /* SearchMoviesListView.swift */; };
+		28CA8C0B28D8390E00F23658 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8C0A28D8390E00F23658 /* HttpClient.swift */; };
+		28CA8C0D28D8396D00F23658 /* URLSessionHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8C0C28D8396D00F23658 /* URLSessionHttpClient.swift */; };
+		28CA8C0F28D8399500F23658 /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28CA8C0E28D8399500F23658 /* HttpError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +124,9 @@
 		28CA8C0228D8359600F23658 /* MainComposerSearchMovies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainComposerSearchMovies.swift; sourceTree = "<group>"; };
 		28CA8C0528D8360200F23658 /* SearchMoviesHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoviesHostingController.swift; sourceTree = "<group>"; };
 		28CA8C0728D8362800F23658 /* SearchMoviesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMoviesListView.swift; sourceTree = "<group>"; };
+		28CA8C0A28D8390E00F23658 /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		28CA8C0C28D8396D00F23658 /* URLSessionHttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHttpClient.swift; sourceTree = "<group>"; };
+		28CA8C0E28D8399500F23658 /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +182,7 @@
 				285D26AC28D503F500C736F9 /* DatabaseSchema */,
 				285D267328D36BB900C736F9 /* Extensions */,
 				285D266528D358D300C736F9 /* Features */,
+				28CA8C0928D8390300F23658 /* Networking */,
 				285D266F28D36A5600C736F9 /* Resources */,
 				285D263828D34BED00C736F9 /* ViewController.swift */,
 				285D263A28D34BED00C736F9 /* Main.storyboard */,
@@ -395,6 +402,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		28CA8C0928D8390300F23658 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				28CA8C0A28D8390E00F23658 /* HttpClient.swift */,
+				28CA8C0E28D8399500F23658 /* HttpError.swift */,
+				28CA8C0C28D8396D00F23658 /* URLSessionHttpClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -531,6 +548,7 @@
 				285D266C28D362B000C736F9 /* FavouriteMovieCell.swift in Sources */,
 				285D269D28D4EFB300C736F9 /* CoreDataHandler.swift in Sources */,
 				28CA8C0128D8340A00F23658 /* SearchMoviesComposer.swift in Sources */,
+				28CA8C0B28D8390E00F23658 /* HttpClient.swift in Sources */,
 				285D269028D4BCC400C736F9 /* FavouriteMoviesRouter.swift in Sources */,
 				28CA8BF728D76C2C00F23658 /* FavouriteMoviesComposer.swift in Sources */,
 				285D267D28D4927200C736F9 /* FavouriteMoviesCollectionViewModel.swift in Sources */,
@@ -555,8 +573,10 @@
 				28CA8BFB28D7731500F23658 /* PreviewFavouriteDummies.swift in Sources */,
 				285D269A28D4EF0600C736F9 /* FavouriteMoviesService.swift in Sources */,
 				28CA8C0628D8360200F23658 /* SearchMoviesHostingController.swift in Sources */,
+				28CA8C0F28D8399500F23658 /* HttpError.swift in Sources */,
 				28CA8C0328D8359600F23658 /* MainComposerSearchMovies.swift in Sources */,
 				285D267528D36BC500C736F9 /* ImageExtension.swift in Sources */,
+				28CA8C0D28D8396D00F23658 /* URLSessionHttpClient.swift in Sources */,
 				285D26B228D74D5100C736F9 /* MainRouter.swift in Sources */,
 				28CA8BFD28D832A800F23658 /* FavouriteMoviesNavigationRouter.swift in Sources */,
 			);
