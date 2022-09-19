@@ -14,5 +14,5 @@ internal final class DummyFavouriteMoviesRouter: FavouriteMoviesRouter {
 
 internal final class DummyFavouriteMoviesService: FavouriteMoviesFetcher, FavouriteMoviesUpdater {
     func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {}
-    func dislikeMovie(with identifier: UUID) {}
+    func dislikeMovie(with title: String, completion: @escaping (FavouriteMoviesUpdater.Result) -> Void) {}
 }

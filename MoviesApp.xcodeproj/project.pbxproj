@@ -37,7 +37,6 @@
 		285D269828D4CD7B00C736F9 /* SpyFavouriteMoviesUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269728D4CD7B00C736F9 /* SpyFavouriteMoviesUpdater.swift */; };
 		285D269A28D4EF0600C736F9 /* FavouriteMoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269928D4EF0600C736F9 /* FavouriteMoviesService.swift */; };
 		285D269D28D4EFB300C736F9 /* CoreDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D269C28D4EFB300C736F9 /* CoreDataHandler.swift */; };
-		285D26A328D4F41900C736F9 /* CoreDataHandlerDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26A228D4F41900C736F9 /* CoreDataHandlerDelete.swift */; };
 		285D26A528D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26A428D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift */; };
 		285D26A728D4FAA400C736F9 /* CoreDataHandlerFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26A628D4FAA400C736F9 /* CoreDataHandlerFetch.swift */; };
 		285D26A928D4FB1E00C736F9 /* DatabaseErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285D26A828D4FB1E00C736F9 /* DatabaseErrors.swift */; };
@@ -102,7 +101,6 @@
 		285D269728D4CD7B00C736F9 /* SpyFavouriteMoviesUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyFavouriteMoviesUpdater.swift; sourceTree = "<group>"; };
 		285D269928D4EF0600C736F9 /* FavouriteMoviesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteMoviesService.swift; sourceTree = "<group>"; };
 		285D269C28D4EFB300C736F9 /* CoreDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandler.swift; sourceTree = "<group>"; };
-		285D26A228D4F41900C736F9 /* CoreDataHandlerDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandlerDelete.swift; sourceTree = "<group>"; };
 		285D26A428D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandlerContextAccess.swift; sourceTree = "<group>"; };
 		285D26A628D4FAA400C736F9 /* CoreDataHandlerFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHandlerFetch.swift; sourceTree = "<group>"; };
 		285D26A828D4FB1E00C736F9 /* DatabaseErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseErrors.swift; sourceTree = "<group>"; };
@@ -326,7 +324,6 @@
 				285D26A828D4FB1E00C736F9 /* DatabaseErrors.swift */,
 				285D269C28D4EFB300C736F9 /* CoreDataHandler.swift */,
 				285D26A428D4F98D00C736F9 /* CoreDataHandlerContextAccess.swift */,
-				285D26A228D4F41900C736F9 /* CoreDataHandlerDelete.swift */,
 				285D26A628D4FAA400C736F9 /* CoreDataHandlerFetch.swift */,
 				285D26AA28D4FDB000C736F9 /* CoreDataHandlerSave.swift */,
 			);
@@ -516,7 +513,6 @@
 				285D269628D4CD3000C736F9 /* FavouriteMoviesUpdater.swift in Sources */,
 				28CA8BFB28D7731500F23658 /* PreviewFavouriteDummies.swift in Sources */,
 				285D269A28D4EF0600C736F9 /* FavouriteMoviesService.swift in Sources */,
-				285D26A328D4F41900C736F9 /* CoreDataHandlerDelete.swift in Sources */,
 				285D267528D36BC500C736F9 /* ImageExtension.swift in Sources */,
 				285D26B228D74D5100C736F9 /* MainRouter.swift in Sources */,
 			);

@@ -28,8 +28,19 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
 // MARK: - Movies Fetch & Movie Deletion
 extension FavouriteMoviesCollectionViewModel {
     public func didTapDislikeCell(from identifier: UUID) {
-        moviesUpdater.dislikeMovie(with: identifier)
-        fetchMovies()
+        let favouriteMovieTitle = mapIdentifierToTitle(identifier)
+        moviesUpdater.dislikeMovie(with: favouriteMovieTitle) { [weak self] result in
+            switch result {
+            case .success:
+                self?.fetchMovies()
+            case .failure: break
+            }
+        }
+    }
+
+    private func mapIdentifierToTitle(_ identifier: UUID) -> String {
+        let title = favouriteMovies.first { movie in movie.id == identifier }?.title
+        return title ?? ""
     }
 
     public func loadMovies() {

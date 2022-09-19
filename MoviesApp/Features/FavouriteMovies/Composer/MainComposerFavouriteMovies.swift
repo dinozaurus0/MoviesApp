@@ -7,11 +7,17 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 extension MainComposer: FavouriteMoviesComposer {
     internal func navigateToFavouriteMovies() -> FavouritesMoviesHostingController {
+        addDummyThingsToCoredata()
         let coredataHandler = CoreDataHandler.shatedInstance()
-        let moviesService = FavouriteMoviesService(fetchContext: coredataHandler.mainContext, databaseHandler: coredataHandler)
+        let updateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        updateContext.parent = coredataHandler.mainContext
+        let moviesService = FavouriteMoviesService(fetchContext: coredataHandler.mainContext,
+                                                   updateContext: updateContext,
+                                                   databaseHandler: coredataHandler)
 
         let viewModel = FavouriteMoviesCollectionViewModel(moviesFetcher: moviesService,
                                                            moviesUpdater: moviesService,
