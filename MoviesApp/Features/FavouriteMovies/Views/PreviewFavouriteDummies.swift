@@ -8,11 +8,11 @@
 import Foundation
 
 internal final class DummyFavouriteMoviesRouter: FavouriteMoviesRouter {
-    func navigateToSearchScreen() {}
-    func navigateToDetailsScreen(movieSelected: FavouriteMovie) {}
+    internal func navigateToSearchScreen() {}
+    internal func navigateToDetailsScreen(movieSelected: FavouriteMovie) {}
 }
 
 internal final class DummyFavouriteMoviesService: FavouriteMoviesFetcher, FavouriteMoviesUpdater {
-    func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {}
-    func dislikeMovie(with title: String, completion: @escaping (FavouriteMoviesUpdater.Result) -> Void) {}
+    internal func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {}
+    internal func dislikeMovie(with title: String, completion: @escaping (FavouriteMoviesUpdater.Result) -> Void) {}
 }

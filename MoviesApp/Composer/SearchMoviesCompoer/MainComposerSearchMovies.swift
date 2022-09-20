@@ -5,14 +5,22 @@
 //  Created by Vlad Grigore Sima on 19.09.2022.
 //
 
+import CoreData
 import SwiftUI
 
 extension MainComposer: SearchMoviesComposer {
-    func navigateToSearchController(dismissViewController: @escaping () -> Void) -> UINavigationController {
+    internal func navigateToSearchController() -> UINavigationController {
         let movieFetcher = createMovieFetcherService()
         let searchBar = UISearchBar()
 
-        let viewModel = SearchMoviesViewModel(movieFetcher: movieFetcher)
+        let searchMovieService = createSearchMovieService()
+
+        let navigationController = UINavigationController()
+        let router = SearchMovieNavigationRouter(navigationController: navigationController)
+
+        let viewModel = SearchMoviesViewModel(movieFetcher: movieFetcher,
+                                              moviePersistent: searchMovieService,
+                                              router: router)
         let searchFieldDelegate = SearchFieldDelegate(delegate: viewModel)
         searchBar.delegate = searchFieldDelegate
 
@@ -24,10 +32,13 @@ extension MainComposer: SearchMoviesComposer {
             guard let self = self, let searchFieldDelegate = searchFieldDelegate else { return }
 
             self.unregister(object: searchFieldDelegate)
-            dismissViewController()
         }
 
-        return UINavigationController(rootViewController: hostingController)
+
+        navigationController.addChild(hostingController)
+        hostingController.didMove(toParent: navigationController)
+
+        return navigationController
     }
 
     private func createMovieFetcherService() -> MovieFetcher {
@@ -38,5 +49,15 @@ extension MainComposer: SearchMoviesComposer {
         let movieFetcher = MovieFetcherService(assetsDownloader: assertDownloader, movieFinder: movieFinder)
 
         return MainQueueDecorator(decoratee: movieFetcher)
+    }
+
+    private func createSearchMovieService() -> SearchMoviesService {
+        let coredataHandler = CoreDataHandler.shatedInstance()
+
+        let fetchContext = coredataHandler.persistenceContainer.newBackgroundContext()
+
+        return SearchMoviesService(fetchContext: fetchContext,
+                                   saveContext: fetchContext,
+                                   databaseHandler: coredataHandler)
     }
 }

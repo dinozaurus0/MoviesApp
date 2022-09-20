@@ -14,10 +14,14 @@ internal final class SearchMoviesViewModel: ObservableObject {
     @Published internal var shouldShowProgressView: Bool = false
 
     private let movieFetcher: MovieFetcher
+    private let moviePersistent: MoviePersistent
+    private let router: SearchMovieRouter
 
     // MARK: - Init
-    internal init(movieFetcher: MovieFetcher) {
+    internal init(movieFetcher: MovieFetcher, moviePersistent: MoviePersistent, router: SearchMovieRouter) {
         self.movieFetcher = movieFetcher
+        self.moviePersistent = moviePersistent
+        self.router = router
     }
 
     // MARK: - Public Methods
@@ -25,8 +29,24 @@ internal final class SearchMoviesViewModel: ObservableObject {
         noEntryMessage = "Write the title of your favourite movie in the search bar to find it !"
     }
 
+    internal func didTapCancelButton() {
+        router.dimiss()
+    }
+
     internal func addToFavouriteMovie() {
-        // use the coredata service to save the content
+        guard let presentableMovie = presentableMovie else { return }
+
+        let movie = createMovie(from: presentableMovie)
+        moviePersistent.save(movie: movie) { [weak self] result in
+            self?.router.dimiss()
+        }
+    }
+
+    private func createMovie(from presentableMovie: PresentableMovieDetails) -> Movie {
+        Movie(title: presentableMovie.title,
+              description: presentableMovie.description,
+              image: presentableMovie.image,
+              rating: Float(presentableMovie.rating) ?? 0.0)
     }
 }
 
@@ -35,6 +55,7 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
         showProgressView()
         guard isIntroducedTextValid(text) else { return }
 
+        // Before we make the request, check if the user has seen the movie. If so, don;t display it
         searchMovie(by: text)
     }
 
@@ -78,9 +99,7 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
     }
 
     private func showMessageForNetworkFailure() {
+        presentableMovie = nil
         noEntryMessage = "We couldn't find the movie you are looking for or you have already seen the movie. Try again!"
     }
 }
-
-
-// TODO: Future requirment --> when a user has already seen a movie, don't display it twice

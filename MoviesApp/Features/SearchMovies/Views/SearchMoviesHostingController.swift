@@ -48,5 +48,6 @@ internal final class SearchMoviesHostingController: UIHostingController<SearchMo
     @objc
     private func didTapCloseBarButton() {
         didTapCloseButton()
+        viewModel.didTapCancelButton()
     }
 }
