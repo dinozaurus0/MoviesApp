@@ -8,12 +8,27 @@
 import CoreData
 
 extension CoreDataHandler {
+    typealias SaveResult = Swift.Result<Void, Error>
+
+    internal func save<ObjectType: CoredataConvertibleTo>(context: NSManagedObjectContext,
+                                                          objectToSave: ObjectType,
+                                                          completion: @escaping (SaveResult) -> Void) {
+        context.perform { [weak self] in
+            guard let self = self else { return }
+
+            objectToSave.convert(context: context)
+            guard self.shouldExecuteSave(on: context) else { return }
+
+        }
+    }
+
+    // TODO: Both will be deprecated
     internal func saveAsync(context: NSManagedObjectContext) {
         context.perform { [weak self] in
             guard let self = self else { return }
 
             guard self.shouldExecuteSave(on: context) else { return }
-            self.executeSave(on: context)
+            self.executeSaveOn(on: context)
         }
     }
 
@@ -22,7 +37,7 @@ extension CoreDataHandler {
             guard let self = self else { return }
 
             guard self.shouldExecuteSave(on: context) else { return }
-            self.executeSave(on: context)
+            self.executeSaveOn(on: context)
         }
     }
 }

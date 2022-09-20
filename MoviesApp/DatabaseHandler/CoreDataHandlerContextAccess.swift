@@ -19,7 +19,18 @@ extension CoreDataHandler {
         return true
     }
 
-    internal func executeSave(on context: NSManagedObjectContext) {
+    internal func executeSave(on context: NSManagedObjectContext) -> SaveResult {
+        do {
+            try context.save()
+            return .success(())
+        } catch _ {
+            context.rollback()
+            return .failure(DatabaseSaveError())
+        }
+    }
+
+    // TODO: Deprecated, should remove later
+    internal func executeSaveOn(on context: NSManagedObjectContext) {
         do {
             try context.save()
         } catch _ {

@@ -103,3 +103,7 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
         noEntryMessage = "We couldn't find the movie you are looking for or you have already seen the movie. Try again!"
     }
 }
+
+// TODO:
+// Before we make the request, check if the user has seen the movie. If so, don;t display it
+// Show an pop up if add to favourites fail 
