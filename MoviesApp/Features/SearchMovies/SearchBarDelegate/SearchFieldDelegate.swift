@@ -20,5 +20,6 @@ internal final class SearchFieldDelegate: NSObject {
 extension SearchFieldDelegate: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         delegate.didUpdateInputField(with: searchBar.text ?? "")
+        searchBar.searchTextField.resignFirstResponder()
     }
 }

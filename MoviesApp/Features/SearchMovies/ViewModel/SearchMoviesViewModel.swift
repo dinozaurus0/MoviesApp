@@ -74,6 +74,7 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
                                                    description: movie.description,
                                                    image: movie.image,
                                                    rating: String(movie.rating))
+        noEntryMessage = ""
     }
 
     private func showMessageForNetworkFailure() {
