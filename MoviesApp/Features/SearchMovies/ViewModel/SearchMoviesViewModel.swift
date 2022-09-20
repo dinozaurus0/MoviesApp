@@ -48,8 +48,8 @@ extension SearchMoviesViewModel {
         moviePersistent.save(movie: movie) { [weak self] result in
             guard let self = self else { return }
 
-            self.handlePersistentResult(result)
             self.hideProgressView()
+            self.handlePersistentResult(result)
         }
     }
 

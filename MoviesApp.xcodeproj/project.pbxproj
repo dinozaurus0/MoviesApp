@@ -295,13 +295,13 @@
 			path = MovieDownloaderService;
 			sourceTree = "<group>";
 		};
-		28152AA728D8D348001271A8 /* Mappers */ = {
+		28152AA728D8D348001271A8 /* NetworkingMappers */ = {
 			isa = PBXGroup;
 			children = (
 				28152A8828D88B73001271A8 /* MovieFinderMapper.swift */,
 				28152AAB28D8DA3A001271A8 /* MovieAssetDownloaderMapper.swift */,
 			);
-			path = Mappers;
+			path = NetworkingMappers;
 			sourceTree = "<group>";
 		};
 		28152AAA28D8D683001271A8 /* MovieFetcherService */ = {
@@ -321,14 +321,14 @@
 			path = Navigation;
 			sourceTree = "<group>";
 		};
-		28152ABA28DA1A78001271A8 /* CoredataModels */ = {
+		28152ABA28DA1A78001271A8 /* CoredataModelsMappers */ = {
 			isa = PBXGroup;
 			children = (
 				28152ABB28DA1A86001271A8 /* CoredataConvertible.swift */,
 				28152ABE28DA1E16001271A8 /* MovieMapperCoredataExtension.swift */,
 				28152AC028DA23D9001271A8 /* MovieEntityCoredataMapperExtension.swift */,
 			);
-			path = CoredataModels;
+			path = CoredataModelsMappers;
 			sourceTree = "<group>";
 		};
 		28152ABD28DA1DD9001271A8 /* MovieSearcherService */ = {
@@ -364,10 +364,10 @@
 			children = (
 				285D266428D34E0100C736F9 /* AppLifecycle */,
 				28152A8528D88AED001271A8 /* Composer */,
-				28152ABA28DA1A78001271A8 /* CoredataModels */,
+				28152ABA28DA1A78001271A8 /* CoredataModelsMappers */,
 				285D269B28D4EF5000C736F9 /* DatabaseHandler */,
 				285D26AC28D503F500C736F9 /* DatabaseSchema */,
-				28152AA728D8D348001271A8 /* Mappers */,
+				28152AA728D8D348001271A8 /* NetworkingMappers */,
 				28CA8C1328D83EC300F23658 /* Models */,
 				285D267328D36BB900C736F9 /* Extensions */,
 				285D266528D358D300C736F9 /* Features */,
