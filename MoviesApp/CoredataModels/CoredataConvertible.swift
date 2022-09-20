@@ -8,11 +8,15 @@
 import CoreData
 
 // As the designated `save`/`shouldExecuteSave`, this methods should be called only from within the coredata handler methods, otherwise this will be bad multithreading access
+
 internal protocol CoredataConvertibleTo {
-    func convert(context: NSManagedObjectContext)
+    associatedtype InputType
+    static func convert(input: InputType, context: NSManagedObjectContext)
 }
 
 internal protocol CoredataConvertibleFrom {
-    associatedtype ResultType
-    func convert() -> ResultType
+    associatedtype InputType where InputType: NSFetchRequestResult
+    associatedtype OutputType
+
+    static func convert(input: InputType) -> OutputType
 }

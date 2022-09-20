@@ -23,7 +23,8 @@ internal final class MovieSearcherService {
 extension MovieSearcherService: MoviePersistent {
     internal func save(movie: Movie, completion: @escaping (MoviePersistent.Result) -> Void) {
         databaseHandler.save(context: context,
-                             objectToSave: movie) { result in
+                             objectToSave: movie,
+                             mapper: MovieMapper.self) { result in
             completion(result)
         }
     }
@@ -32,8 +33,10 @@ extension MovieSearcherService: MoviePersistent {
 extension MovieSearcherService: MovieChecker {
     internal func doesMovieExist(with title: String, completion: @escaping (MovieChecker.Result) -> Void) {
         let fetchRequest = createFetchRequest(title: title)
-        
-        databaseHandler.fetchObjects(fetchRequest, in: context) { [weak self] result in
+
+        databaseHandler.fetchObjects(fetchRequest,
+                                     in: context ,
+                                     mapper: MovieEntityMapper.self) { [weak self] result in
             guard let self = self else { return }
 
             let parsedResult = self.checkIfEntityExists(from: result)

@@ -52,12 +52,12 @@ extension MainComposer: SearchMoviesComposer {
         return MainQueueDecorator(decoratee: movieFetcher)
     }
 
-    private func createSearchMovieService() -> MovieSearcherService {
+    private func createSearchMovieService() -> MovieChecker & MoviePersistent {
         let coredataHandler = CoreDataHandler.shatedInstance()
 
         let backgroundContext = coredataHandler.persistenceContainer.newBackgroundContext()
 
-        return MovieSearcherService(context: backgroundContext,
-                                   databaseHandler: coredataHandler)
+        let movieService = MovieSearcherService(context: backgroundContext, databaseHandler: coredataHandler)
+        return MainQueueDecorator(decoratee: movieService)
     }
 }

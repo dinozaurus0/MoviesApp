@@ -8,25 +8,42 @@
 import CoreData
 
 extension CoreDataHandler {
-    internal func fetchObjects<ObjectType: CoredataConvertibleFrom>(_ fetchRequest: NSFetchRequest<ObjectType>,
+//    internal func fetchObjects<ObjectType: CoredataConvertibleFrom>(_ fetchRequest: NSFetchRequest<ObjectType>,
+//                                                                    in context: NSManagedObjectContext,
+//                                                                    completion: @escaping (Result<[ObjectType.ResultType], Error>) -> Void) {
+//        context.perform { [weak self] in
+//            guard let self = self else { return }
+//
+//            self.fetch(using: fetchRequest, in: context) { [weak self] result in
+//                guard let self = self else { return }
+//
+//                let parsedResult = self.handleEntitiesConvertion(from: result)
+//                completion(parsedResult)
+//            }
+//        }
+//    }
+
+    internal func fetchObjects<MapperType: CoredataConvertibleFrom>(_ fetchRequest: NSFetchRequest<MapperType.InputType>,
                                                                     in context: NSManagedObjectContext,
-                                                                    completion: @escaping (Result<[ObjectType.ResultType], Error>) -> Void) {
+                                                                    mapper: MapperType.Type,
+                                                                    completion: @escaping (Result<[MapperType.OutputType], Error>) -> Void) {
         context.perform { [weak self] in
             guard let self = self else { return }
 
             self.fetch(using: fetchRequest, in: context) { [weak self] result in
                 guard let self = self else { return }
 
-                let parsedResult = self.handleEntitiesConvertion(from: result)
+                let parsedResult = self.handleEntitiesConvertion(from: result, mapper: mapper)
                 completion(parsedResult)
             }
         }
     }
 
-    private func handleEntitiesConvertion<ObjectType: CoredataConvertibleFrom>(from result: Result<[ObjectType], Error>) -> Result<[ObjectType.ResultType], Error> {
+    private func handleEntitiesConvertion<MapperType: CoredataConvertibleFrom>(from result: Result<[MapperType.InputType], Error>,
+                                                                               mapper: MapperType.Type) -> Result<[MapperType.OutputType], Error> {
         return result.map { entities in
             return entities.map { entity in
-                return entity.convert()
+                return mapper.convert(input: entity)
             }
         }
     }

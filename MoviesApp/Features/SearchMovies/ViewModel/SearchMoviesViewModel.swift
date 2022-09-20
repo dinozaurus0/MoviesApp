@@ -157,6 +157,3 @@ extension SearchMoviesViewModel {
         shouldShowProgressView = false
     }
 }
-
-// TODO:
-// Ensure all things are execute on main queue
