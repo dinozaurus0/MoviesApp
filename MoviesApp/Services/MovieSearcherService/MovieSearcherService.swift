@@ -32,6 +32,7 @@ extension MovieSearcherService: MoviePersistent {
 extension MovieSearcherService: MovieChecker {
     internal func doesMovieExist(with title: String, completion: @escaping (MovieChecker.Result) -> Void) {
         let fetchRequest = createFetchRequest(title: title)
+        
         databaseHandler.fetchObjects(fetchRequest, in: context) { [weak self] result in
             guard let self = self else { return }
 

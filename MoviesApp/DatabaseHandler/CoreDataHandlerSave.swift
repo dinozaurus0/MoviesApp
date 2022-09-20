@@ -19,6 +19,8 @@ extension CoreDataHandler {
             objectToSave.convert(context: context)
             guard self.shouldExecuteSave(on: context) else { return }
 
+            let saveResult = self.executeSave(on: context)
+            completion(saveResult)
         }
     }
 

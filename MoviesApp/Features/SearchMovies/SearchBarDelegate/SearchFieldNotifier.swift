@@ -8,5 +8,5 @@
 import Foundation
 
 internal protocol SearchFieldNotifier: AnyObject {
-    func didUpdateInputField(with text: String)
+    func didTapSearchButton(with text: String)
 }

@@ -9,4 +9,5 @@ import Foundation
 
 internal protocol SearchMovieRouter {
     func dimiss()
+    func presentAlert(title: String, message: String)
 }

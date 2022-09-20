@@ -19,6 +19,7 @@ extension MainComposer: SearchMoviesComposer {
         let router = SearchMovieNavigationRouter(navigationController: navigationController)
 
         let viewModel = SearchMoviesViewModel(movieFetcher: movieFetcher,
+                                              movieChecker: searchMovieService,
                                               moviePersistent: searchMovieService,
                                               router: router)
         let searchFieldDelegate = SearchFieldDelegate(delegate: viewModel)

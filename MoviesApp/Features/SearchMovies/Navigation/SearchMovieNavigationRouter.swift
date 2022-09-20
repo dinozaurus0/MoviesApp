@@ -21,4 +21,11 @@ internal final class SearchMovieNavigationRouter: SearchMovieRouter {
     internal func dimiss() {
         navigationController.dismiss(animated: true)
     }
+
+    internal func presentAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+
+        navigationController.present(alertController, animated: true)
+    }
 }

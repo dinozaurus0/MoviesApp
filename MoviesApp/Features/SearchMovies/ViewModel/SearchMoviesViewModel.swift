@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 internal final class SearchMoviesViewModel: ObservableObject {
     // MARK: - Properties
@@ -15,11 +16,13 @@ internal final class SearchMoviesViewModel: ObservableObject {
 
     private let movieFetcher: MovieFetcher
     private let moviePersistent: MoviePersistent
+    private let movieChecker: MovieChecker
     private let router: SearchMovieRouter
 
     // MARK: - Init
-    internal init(movieFetcher: MovieFetcher, moviePersistent: MoviePersistent, router: SearchMovieRouter) {
+    internal init(movieFetcher: MovieFetcher, movieChecker: MovieChecker, moviePersistent: MoviePersistent, router: SearchMovieRouter) {
         self.movieFetcher = movieFetcher
+        self.movieChecker = movieChecker
         self.moviePersistent = moviePersistent
         self.router = router
     }
@@ -32,13 +35,21 @@ internal final class SearchMoviesViewModel: ObservableObject {
     internal func didTapCancelButton() {
         router.dimiss()
     }
+}
 
+// MARK: - Add to favourites
+extension SearchMoviesViewModel {
     internal func addToFavouriteMovie() {
         guard let presentableMovie = presentableMovie else { return }
 
+        showProgressView()
+
         let movie = createMovie(from: presentableMovie)
         moviePersistent.save(movie: movie) { [weak self] result in
-            self?.router.dimiss()
+            guard let self = self else { return }
+
+            self.handlePersistentResult(result)
+            self.hideProgressView()
         }
     }
 
@@ -48,35 +59,68 @@ internal final class SearchMoviesViewModel: ObservableObject {
               image: presentableMovie.image,
               rating: Float(presentableMovie.rating) ?? 0.0)
     }
+
+    private func handlePersistentResult(_ result: MoviePersistent.Result) {
+        switch result {
+        case .success:
+            router.dimiss()
+        case .failure:
+            router.presentAlert(title: "Failed to add to favourites !",
+                                message: "After dismissing the alert, please try again.")
+        }
+    }
 }
 
 extension SearchMoviesViewModel: SearchFieldNotifier {
-    internal func didUpdateInputField(with text: String) {
+    internal func didTapSearchButton(with text: String) {
         showProgressView()
-        guard isIntroducedTextValid(text) else { return }
 
-        // Before we make the request, check if the user has seen the movie. If so, don;t display it
-        searchMovie(by: text)
+        executeSearchIfNeeded(text: text) { [weak self] in
+            self?.hideProgressView()
+        }
     }
 
-    private func showProgressView() {
-        shouldShowProgressView = true
+    private func executeSearchIfNeeded(text: String, completion: @escaping () -> Void) {
+        checkMovieExistance(text: text, completion: completion)
     }
 
-    private func hideProgressView() {
-        shouldShowProgressView = false
+    private func checkMovieExistance(text: String, completion: @escaping () -> Void) {
+        movieChecker.doesMovieExist(with: text) { [weak self] result in
+            self?.handleExistanceCheckResult(result, title: text, completion: completion)
+        }
     }
 
-    private func isIntroducedTextValid(_ text: String) -> Bool {
-        !text.isEmpty
+    private func handleExistanceCheckResult(_ result: MovieChecker.Result, title: String, completion: @escaping () -> Void) {
+        switch result {
+        case .success(let isMovieInFavouriteList):
+            startSearchMovieIfNeeded(isMovieInFavouriteList, title: title, completion: completion)
+        case .failure:
+            showMessageForFetchFailure()
+            completion()
+        }
     }
 
-    private func searchMovie(by title: String) {
+    private func startSearchMovieIfNeeded(_ isMovieInFavouriteList: Bool, title: String, completion: @escaping () -> Void) {
+        guard !isMovieInFavouriteList else {
+            showMessageForMovieInFavouriteList()
+            completion()
+            return
+        }
+
+        searchMovie(by: title, completion: completion)
+    }
+
+    private func showMessageForMovieInFavouriteList() {
+        presentableMovie = nil
+        noEntryMessage = "You have already added this movie to favourite list. Go back on the main screen to visualise its details!"
+    }
+
+    private func searchMovie(by title: String, completion: @escaping () -> Void) {
         movieFetcher.find(by: title) { [weak self] result in
             guard let self = self else { return }
 
             self.handleMovieFinderResult(result)
-            self.hideProgressView()
+            completion()
         }
     }
 
@@ -85,9 +129,8 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
         case .success(let movie):
             self.handleSuccessfulFetch(movie: movie)
         case .failure:
-            self.showMessageForNetworkFailure()
+            self.showMessageForFetchFailure()
         }
-
     }
 
     private func handleSuccessfulFetch(movie: Movie) {
@@ -98,12 +141,22 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
         noEntryMessage = ""
     }
 
-    private func showMessageForNetworkFailure() {
+    private func showMessageForFetchFailure() {
         presentableMovie = nil
         noEntryMessage = "We couldn't find the movie you are looking for or you have already seen the movie. Try again!"
     }
 }
 
+// MARK: - Progress View Flag
+extension SearchMoviesViewModel {
+    private func showProgressView() {
+        shouldShowProgressView = true
+    }
+
+    private func hideProgressView() {
+        shouldShowProgressView = false
+    }
+}
+
 // TODO:
-// Before we make the request, check if the user has seen the movie. If so, don;t display it
-// Show an pop up if add to favourites fail 
+// Ensure all things are execute on main queue

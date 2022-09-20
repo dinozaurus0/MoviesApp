@@ -111,6 +111,7 @@ internal struct SearchMovieView: View {
 internal struct SearchMovieView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = SearchMoviesViewModel(movieFetcher: DummyMovieFetcher(),
+                                              movieChecker: DummySearchMovieService(),
                                               moviePersistent: DummySearchMovieService(),
                                               router: DummySearchMovieNavigationRouter())
         viewModel.presentableMovie = presentableMovie
