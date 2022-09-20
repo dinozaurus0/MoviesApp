@@ -63,7 +63,10 @@ extension FavouriteMoviesCollectionViewModel {
     private func handleSuccessfulMoviesFetch(with favouriteMovies: [FavouriteMovie]) {
         if favouriteMovies.isEmpty {
             noEntryMessage = "No favourite movies to display!"
+        } else {
+            noEntryMessage = ""
         }
+        
         self.favouriteMovies = convertFavouriteMoviesToPresentableItems(favouriteMovies)
     }
 
