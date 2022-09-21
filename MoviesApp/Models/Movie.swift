@@ -7,9 +7,16 @@
 
 import Foundation
 
-internal struct Movie {
-    let title: String
-    let description: String
-    let image: Data
-    let rating: Float
+public struct Movie {
+    public let title: String
+    public let description: String
+    public let image: Data
+    public let rating: Float
+
+    public init(title: String, description: String, image: Data, rating: Float) {
+        self.title = title
+        self.description = description
+        self.image = image
+        self.rating = rating
+    }
 }

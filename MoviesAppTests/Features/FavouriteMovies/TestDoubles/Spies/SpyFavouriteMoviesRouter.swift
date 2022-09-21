@@ -10,17 +10,22 @@ import MoviesApp
 internal final class SpyFavouriteMoviesRouter: FavouriteMoviesRouter {
 
     internal enum ReceivedMessage: Equatable {
-        case navigateToDetailsScreen(movieSelected: FavouriteMovie)
+        case navigateToDetailsScreen(movieSelected: Movie)
         case navigateToSearchScreen
+        case presentAlert(title: String, message: String)
     }
 
     internal var receivedMessages: [ReceivedMessage] = []
 
-    internal func navigateToDetailsScreen(movieSelected: FavouriteMovie) {
+    internal func navigateToDetailsScreen(movieSelected: Movie) {
         receivedMessages.append(.navigateToDetailsScreen(movieSelected: movieSelected))
     }
 
     internal func navigateToSearchScreen() {
         receivedMessages.append(.navigateToSearchScreen)
+    }
+
+    internal func presentAlert(title: String, message: String) {
+        receivedMessages.append(.presentAlert(title: title, message: message))
     }
 }

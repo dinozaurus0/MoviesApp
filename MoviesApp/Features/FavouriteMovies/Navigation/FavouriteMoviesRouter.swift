@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal protocol FavouriteMoviesRouter {
+public protocol FavouriteMoviesRouter {
     func navigateToSearchScreen()
     func navigateToDetailsScreen(movieSelected: Movie)
     func presentAlert(title: String, message: String)

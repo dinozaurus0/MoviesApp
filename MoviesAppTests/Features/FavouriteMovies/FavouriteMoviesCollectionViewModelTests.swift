@@ -10,15 +10,16 @@ import MoviesApp
 
 private let data = Data()
 private struct FetcherError: Error {}
+private struct DeletionError: Error {}
 
 internal final class FavouriteMoviesCollectionViewModelTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(moviesFetcher: FavouriteMoviesFetcher,
-                         moviesUpdater: FavouriteMoviesDeleter? = nil,
+                         moviesDeleter: FavouriteMoviesDeleter? = nil,
                          router: FavouriteMoviesRouter? = nil) -> FavouriteMoviesCollectionViewModel {
         FavouriteMoviesCollectionViewModel(moviesFetcher: moviesFetcher,
-                                           moviesUpdater: moviesUpdater ?? SpyFavouriteMoviesUpdater(),
+                                           moviesDeleter: moviesDeleter ?? SpyFavouriteMoviesDeleter(),
                                            router: router ?? SpyFavouriteMoviesRouter())
     }
 
@@ -30,23 +31,23 @@ internal final class FavouriteMoviesCollectionViewModelTests: XCTestCase {
         presentableMovies[forItemIndex].id
     }
 
-    private func selectFavouriteMovies(from index: Int) -> FavouriteMovie {
+    private func selectFavouriteMovies(from index: Int) -> Movie {
         favouriteMovies[index]
     }
 
     private var favouriteMovies = [
-        FavouriteMovie(title: "Game Of Thrones",
-                       description: "A show with mad kings and cool queens",
-                       image: data,
-                       rating: 8.9),
-        FavouriteMovie(title: "Vikings",
-                       description: "A show with cool guys that fight each other over power",
-                       image: data,
-                       rating: 8.3),
-        FavouriteMovie(title: "Black Sails",
-                       description: "A lot of pirates over there",
-                       image: data,
-                       rating: 9.5)
+        Movie(title: "Game Of Thrones",
+              description: "A show with mad kings and cool queens",
+              image: data,
+              rating: 8.9),
+        Movie(title: "Vikings",
+              description: "A show with cool guys that fight each other over power",
+              image: data,
+              rating: 8.3),
+        Movie(title: "Black Sails",
+              description: "A lot of pirates over there",
+              image: data,
+              rating: 9.5)
     ]
 
     private var presentableFavouriteMovies = [
@@ -131,8 +132,8 @@ extension FavouriteMoviesCollectionViewModelTests {
 extension FavouriteMoviesCollectionViewModelTests {
     func test_didTapDislikeCell_withFirstIdentifier_shouldCallMoviesDeleterWithSelectedIdentifier() {
         // given
-        let updater = SpyFavouriteMoviesUpdater()
-        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesUpdater: updater)
+        let updater = SpyFavouriteMoviesDeleter()
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesDeleter: updater)
         loadDataSource(from: sut)
         let itemIdentifier = getIdentifier(from: sut.favouriteMovies, forItemIndex: 0)
 
@@ -140,13 +141,13 @@ extension FavouriteMoviesCollectionViewModelTests {
         sut.didTapDislikeCell(from: itemIdentifier)
 
         // then
-        XCTAssertEqual(updater.receivedMessages, [.deleteMovie(with: itemIdentifier)])
+        XCTAssertEqual(updater.receivedMessages, [.deleteMovie(with: "Game Of Thrones")])
     }
 
     func test_didTapDislikeCell_withThirdIdentifier_shouldCallMoviesDeleterWithSelectedIdentifier() {
         // given
-        let updater = SpyFavouriteMoviesUpdater()
-        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesUpdater: updater)
+        let updater = SpyFavouriteMoviesDeleter()
+        let sut = makeSUT(moviesFetcher: StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies)), moviesDeleter: updater)
         loadDataSource(from: sut)
         let itemIdentifier = getIdentifier(from: sut.favouriteMovies, forItemIndex: 2)
 
@@ -154,19 +155,37 @@ extension FavouriteMoviesCollectionViewModelTests {
         sut.didTapDislikeCell(from: itemIdentifier)
 
         // then
-        XCTAssertEqual(updater.receivedMessages, [.deleteMovie(with: itemIdentifier)])
+        XCTAssertEqual(updater.receivedMessages, [.deleteMovie(with: "Black Sails")])
     }
 
-    func test_didTapDislikeCell_withIdentifier_shouldCallMoviesFetcher() {
+    func test_didTapDislikeCell_withIdentifier_withSuccessfulDeleteOperation_shouldCallMoviesFetcher() {
         // given
         let fetcher = SpyFavouriteMoviesFetcher()
-        let sut = makeSUT(moviesFetcher: fetcher)
+        let deleter = StubFavouriteMovieDeleter(expectedResult: Result.success(()))
+        let sut = makeSUT(moviesFetcher: fetcher, moviesDeleter: deleter)
 
         // when
         sut.didTapDislikeCell(from: UUID())
 
         // then
         XCTAssertEqual(fetcher.receivedMessages, [.fetchFavouritesMovies])
+    }
+
+    func test_didTapDislikeCell_withIdentifier_withFailedDeleteOperation_shouldCallRouterWithPresentAlert() {
+        // given
+        let fetcher = StubFavouriteMoviesFetcher(expectedResult: Result.success(favouriteMovies))
+        let deleter = StubFavouriteMovieDeleter(expectedResult: Result.failure(DeletionError()))
+        let router = SpyFavouriteMoviesRouter()
+
+        let sut = makeSUT(moviesFetcher: fetcher, moviesDeleter: deleter, router: router)
+
+        // when
+        sut.loadMovies()
+        sut.didTapDislikeCell(from: getIdentifier(from: sut.favouriteMovies, forItemIndex: 2))
+
+        // then
+        XCTAssertEqual(router.receivedMessages, [.presentAlert(title: "Deletion failed!",
+                                                               message: "At this time, the deletion of the entry failed. Please try again later!")])
     }
 }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal protocol FavouriteMoviesDeleter {
+public protocol FavouriteMoviesDeleter {
     typealias Result = Swift.Result<Void, Error>
 
     func remove(with title: String, completion: @escaping (Result) -> Void)

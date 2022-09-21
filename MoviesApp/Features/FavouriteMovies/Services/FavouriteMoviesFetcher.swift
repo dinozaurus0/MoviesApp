@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal protocol FavouriteMoviesFetcher {
+public protocol FavouriteMoviesFetcher {
     typealias Result = Swift.Result<[Movie], Error>
     
     func fetchMovies(completion: @escaping (Result) -> Void)

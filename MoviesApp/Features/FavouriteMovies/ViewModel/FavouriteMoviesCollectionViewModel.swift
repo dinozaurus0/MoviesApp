@@ -18,7 +18,7 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
     private let router: FavouriteMoviesRouter
 
     // MARK: - Init
-    internal init(moviesFetcher: FavouriteMoviesFetcher, moviesDeleter: FavouriteMoviesDeleter, router: FavouriteMoviesRouter) {
+    public init(moviesFetcher: FavouriteMoviesFetcher, moviesDeleter: FavouriteMoviesDeleter, router: FavouriteMoviesRouter) {
         self.moviesFetcher = moviesFetcher
         self.moviesDeleter = moviesDeleter
         self.router = router

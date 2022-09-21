@@ -7,8 +7,8 @@
 
 import MoviesApp
 
-extension FavouriteMovie: Equatable {
-    public static func == (lhs: FavouriteMovie, rhs: FavouriteMovie) -> Bool {
+extension Movie: Equatable {
+    public static func == (lhs: Movie, rhs: Movie) -> Bool {
         return lhs.title == rhs.title && lhs.description == rhs.description && lhs.image == rhs.image && lhs.rating == rhs.rating
     }
 }
