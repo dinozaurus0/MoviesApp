@@ -6,7 +6,7 @@
 //
 
 import CoreData
-import SwiftUI
+import UIKit
 
 extension MainComposer: SearchMoviesComposer {
     internal func navigateToSearchController() -> UINavigationController {

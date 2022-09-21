@@ -28,13 +28,4 @@ extension CoreDataHandler {
             return .failure(DatabaseSaveError())
         }
     }
-
-    // TODO: Deprecated, should remove later
-    internal func executeSaveOn(on context: NSManagedObjectContext) {
-        do {
-            try context.save()
-        } catch _ {
-            context.rollback()
-        }
-    }
 }

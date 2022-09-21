@@ -7,7 +7,7 @@
 
 import CoreData
 
-public final class FavouriteMoviesService {
+internal final class FavouriteMoviesService {
 
     // MARK: - Properties
     private let fetchContext: NSManagedObjectContext

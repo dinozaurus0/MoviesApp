@@ -7,14 +7,14 @@
 
 import Foundation
 
-public struct PresentableFavouriteMovieCard: Identifiable {
-    public let id: UUID
-    public let title: String
-    public let description: String
-    public let image: Data
-    public let rating: String
+internal struct PresentableFavouriteMovieCard: Identifiable {
+    internal let id: UUID
+    internal let title: String
+    internal let description: String
+    internal let image: Data
+    internal let rating: String
 
-    public init(id: UUID, title: String, description: String, image: Data, rating: String) {
+    internal init(id: UUID, title: String, description: String, image: Data, rating: String) {
         self.id = id
         self.title = title
         self.description = description

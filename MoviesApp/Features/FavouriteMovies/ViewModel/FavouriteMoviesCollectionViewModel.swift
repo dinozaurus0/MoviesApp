@@ -106,7 +106,3 @@ extension FavouriteMoviesCollectionViewModel {
               rating: Float(presentableFavouriteMovie.rating) ?? 0.0)
     }
 }
-
-// handle when delete fails
-// update ui cell
-// navigate to
