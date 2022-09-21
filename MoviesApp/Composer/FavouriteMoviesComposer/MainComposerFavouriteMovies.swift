@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 
 extension MainComposer: FavouriteMoviesComposer {
-    internal func navigateToFavouriteMovies(navigationStack: UINavigationController) -> FavouritesMoviesHostingController {
+    internal func createFavouriteMoviesController(navigationStack: UINavigationController) -> FavouritesMoviesHostingController {
         let moviesService = createFavouriteMoviesService()
 
         let router = FavouriteMoviesNavigationRouter(searchMoviesComposer: self,

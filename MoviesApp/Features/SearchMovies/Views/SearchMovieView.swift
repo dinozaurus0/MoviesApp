@@ -40,14 +40,14 @@ internal struct SearchMovieView: View {
         }
     }
 
-    private func detailsStack(movie: PresentableMovieDetails) -> some View {
+    private func detailsStack(movie: PresentableSearchMovieDetails) -> some View {
         VStack(spacing: 20.0) {
             textStack(movie: movie)
             ratingView(movie: movie)
         }
     }
 
-    private func textStack(movie: PresentableMovieDetails) -> some View {
+    private func textStack(movie: PresentableSearchMovieDetails) -> some View {
         VStack(spacing: 20.0) {
             Text(movie.title)
                 .font(Font.title)
@@ -60,7 +60,7 @@ internal struct SearchMovieView: View {
         .padding(.horizontal, 15.0)
     }
 
-    private func ratingView(movie: PresentableMovieDetails) -> some View {
+    private func ratingView(movie: PresentableSearchMovieDetails) -> some View {
         HStack {
             Spacer()
             Text("IMDB Movie Rating: ")
@@ -119,7 +119,7 @@ internal struct SearchMovieView_Previews: PreviewProvider {
     }
 
     private static var presentableMovie =
-    PresentableMovieDetails(title: "Game of Thrones",
+    PresentableSearchMovieDetails(title: "Game of Thrones",
                             description: "In the mythical continent of Westeros, several powerful families fight for control of the Seven Kingdoms. As conflict erupts in the kingdoms of men, an ancient enemy rises once again to threaten them all. Meanwhile, the last heirs of a recently usurped dynasty plot to take back their homeland from across the Narrow Sea.",
                             image: loadImageData(from: loadImagePath(for: "GOTImage", type: "jpeg")),
                             rating: "9.1")

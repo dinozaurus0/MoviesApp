@@ -11,7 +11,7 @@ import SwiftUI
 internal final class SearchMoviesViewModel: ObservableObject {
     // MARK: - Properties
     @Published internal var noEntryMessage: String = ""
-    @Published internal var presentableMovie: PresentableMovieDetails?
+    @Published internal var presentableMovie: PresentableSearchMovieDetails?
     @Published internal var shouldShowProgressView: Bool = false
 
     private let movieFetcher: MovieFetcher
@@ -53,7 +53,7 @@ extension SearchMoviesViewModel {
         }
     }
 
-    private func createMovie(from presentableMovie: PresentableMovieDetails) -> Movie {
+    private func createMovie(from presentableMovie: PresentableSearchMovieDetails) -> Movie {
         Movie(title: presentableMovie.title,
               description: presentableMovie.description,
               image: presentableMovie.image,
@@ -134,7 +134,7 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
     }
 
     private func handleSuccessfulFetch(movie: Movie) {
-        presentableMovie = PresentableMovieDetails(title: movie.title,
+        presentableMovie = PresentableSearchMovieDetails(title: movie.title,
                                                    description: movie.description,
                                                    image: movie.image,
                                                    rating: String(movie.rating))

@@ -8,5 +8,5 @@
 import UIKit
 
 internal protocol FavouriteMoviesComposer {
-    func navigateToFavouriteMovies(navigationStack: UINavigationController) -> FavouritesMoviesHostingController
+    func createFavouriteMoviesController(navigationStack: UINavigationController) -> FavouritesMoviesHostingController
 }

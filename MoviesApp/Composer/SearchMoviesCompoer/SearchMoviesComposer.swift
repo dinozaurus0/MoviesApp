@@ -8,5 +8,5 @@
 import SwiftUI
 
 internal protocol SearchMoviesComposer {
-    func navigateToSearchController() -> UINavigationController
+    func createSearchController() -> UINavigationController
 }

@@ -9,7 +9,7 @@ import CoreData
 import UIKit
 
 extension MainComposer: SearchMoviesComposer {
-    internal func navigateToSearchController() -> UINavigationController {
+    internal func createSearchController() -> UINavigationController {
         let movieFetcher = createMovieFetcherService()
         let searchBar = UISearchBar()
 

@@ -22,7 +22,7 @@ internal final class FavouriteMoviesNavigationRouter: FavouriteMoviesRouter {
 
     // MARK: - Favourite Movies Router
     internal func navigateToSearchScreen() {
-        let searchViewController = searchMoviesComposer.navigateToSearchController()
+        let searchViewController = searchMoviesComposer.createSearchController()
         searchViewController.modalPresentationStyle = .fullScreen
         navigationController.present(searchViewController, animated: true)
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct PresentableMovieDetails {
+internal struct PresentableSearchMovieDetails {
     let title: String
     let description: String
     let image: Data

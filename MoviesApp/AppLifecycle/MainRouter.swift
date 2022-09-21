@@ -20,7 +20,7 @@ internal final class MainRouter {
     // MARK: - Start app
     internal func startApp(window: UIWindow) {
         let navigationController = UINavigationController()
-        let initialViewController = favouriteMoviesComposer.navigateToFavouriteMovies(navigationStack: navigationController)
+        let initialViewController = favouriteMoviesComposer.createFavouriteMoviesController(navigationStack: navigationController)
         navigationController.pushViewController(initialViewController, animated: false)
 
         window.rootViewController = navigationController
