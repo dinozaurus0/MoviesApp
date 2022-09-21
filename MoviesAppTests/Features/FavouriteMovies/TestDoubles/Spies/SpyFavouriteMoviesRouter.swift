@@ -17,8 +17,8 @@ internal final class SpyFavouriteMoviesRouter: FavouriteMoviesRouter {
 
     internal var receivedMessages: [ReceivedMessage] = []
 
-    internal func navigateToDetailsScreen(movieSelected: Movie) {
-        receivedMessages.append(.navigateToDetailsScreen(movieSelected: movieSelected))
+    internal func navigateToDetailsScreen(selectedMovie: Movie) {
+        receivedMessages.append(.navigateToDetailsScreen(movieSelected: selectedMovie))
     }
 
     internal func navigateToSearchScreen() {
