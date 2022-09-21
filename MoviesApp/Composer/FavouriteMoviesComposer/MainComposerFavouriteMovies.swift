@@ -13,6 +13,7 @@ extension MainComposer: FavouriteMoviesComposer {
         let moviesService = createFavouriteMoviesService()
 
         let router = FavouriteMoviesNavigationRouter(searchMoviesComposer: self,
+                                                     movieDetailsComposer: self,
                                                      navigationController: navigationStack)
 
         let viewModel = FavouriteMoviesCollectionViewModel(moviesFetcher: moviesService,

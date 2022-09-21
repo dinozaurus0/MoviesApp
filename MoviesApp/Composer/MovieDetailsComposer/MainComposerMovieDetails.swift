@@ -9,7 +9,9 @@ import Foundation
 
 extension MainComposer: MovieDetailsComposer {
     internal func createMovieDetailsController(movie: Movie) -> MovieDetailsHostingController {
+        let viewModel = MovieDetailsViewModel(movie: movie)
 
-        return MovieDetailsHostingController(rootView: MovieDetailsView(viewModel: MovieDetailsViewModel(movie: movie)))
+        let movieDetailsView = MovieDetailsView(viewModel: viewModel)
+        return MovieDetailsHostingController(viewModel: viewModel, rootView: movieDetailsView)
     }
 }

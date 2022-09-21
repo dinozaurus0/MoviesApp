@@ -92,7 +92,7 @@ extension FavouriteMoviesCollectionViewModel {
     public func didSelectCell(with identifier: UUID) {
         guard let presentableFavouriteMovie = findPresentableMovie(using: identifier) else { return }
         let favouriteMovie = convertFromPresentableToFavouriteMovie(presentableFavouriteMovie)
-        router.navigateToDetailsScreen(movieSelected: favouriteMovie)
+        router.navigateToDetailsScreen(selectedMovie: favouriteMovie)
     }
 
     private func findPresentableMovie(using identifier: UUID) -> PresentableFavouriteMovieCard? {

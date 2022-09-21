@@ -9,7 +9,7 @@ import Foundation
 
 public protocol FavouriteMoviesRouter {
     func navigateToSearchScreen()
-    func navigateToDetailsScreen(movieSelected: Movie)
+    func navigateToDetailsScreen(selectedMovie: Movie)
     func presentAlert(title: String, message: String)
 }
 

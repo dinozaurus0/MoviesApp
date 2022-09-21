@@ -12,11 +12,13 @@ internal final class FavouriteMoviesNavigationRouter: FavouriteMoviesRouter {
 
     // MARK: - Properties
     private let searchMoviesComposer: SearchMoviesComposer
+    private let movieDetailsComposer: MovieDetailsComposer
     private let navigationController: UINavigationController
 
     // MARK: - Init
-    internal init(searchMoviesComposer: SearchMoviesComposer, navigationController: UINavigationController) {
+    internal init(searchMoviesComposer: SearchMoviesComposer, movieDetailsComposer: MovieDetailsComposer, navigationController: UINavigationController) {
         self.searchMoviesComposer = searchMoviesComposer
+        self.movieDetailsComposer = movieDetailsComposer
         self.navigationController = navigationController
     }
 
@@ -27,7 +29,11 @@ internal final class FavouriteMoviesNavigationRouter: FavouriteMoviesRouter {
         navigationController.present(searchViewController, animated: true)
     }
 
-    internal func navigateToDetailsScreen(movieSelected: Movie) {}
+    internal func navigateToDetailsScreen(selectedMovie: Movie) {
+        let movieDetailsController = movieDetailsComposer.createMovieDetailsController(movie: selectedMovie)
+        let navigationController = UINavigationController(rootViewController: movieDetailsController)
+        self.navigationController.present(navigationController, animated: true)
+    }
 
     internal func presentAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

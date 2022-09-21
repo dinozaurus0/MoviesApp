@@ -18,7 +18,7 @@ internal struct MovieDetailsViewModel {
     }
 
     // MAKR: - Public Methods
-    internal func computeTitle() -> String {
+    internal func computeScreenTitle() -> String {
         return movie.title
     }
 

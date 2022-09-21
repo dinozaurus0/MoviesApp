@@ -19,6 +19,19 @@ internal struct MovieDetailsView: View {
 
     // MAKR: - Body
     internal var body: some View {
-        Color.blue
+        let movieDetails = viewModel.computePresentableMovieDetails()
+
+        ScrollView {
+            VStack(spacing: 20.0) {
+                Image(data: movieDetails.image)?
+                    .resizable()
+                    .scaledToFit()
+                Text(movieDetails.description)
+                    .font(Font.body)
+                    .multilineTextAlignment(.leading)
+                    .padding(.horizontal, 20.0)
+                Text("IMDB rating: " + movieDetails.rating)
+            }
+        }
     }
 }
