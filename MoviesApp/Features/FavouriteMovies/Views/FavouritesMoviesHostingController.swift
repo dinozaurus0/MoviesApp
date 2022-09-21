@@ -44,7 +44,7 @@ internal final class FavouritesMoviesHostingController: UIHostingController<Favo
     private func setupNavigationTitleBar() {
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFont(ofSize: 24)
-        titleLabel.text = "Favourites Movies"
+        titleLabel.text = "Favourite Movies"
 
         navigationItem.titleView = titleLabel
     }

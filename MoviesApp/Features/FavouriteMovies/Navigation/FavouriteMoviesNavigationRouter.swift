@@ -28,4 +28,11 @@ internal final class FavouriteMoviesNavigationRouter: FavouriteMoviesRouter {
     }
 
     internal func navigateToDetailsScreen(movieSelected: Movie) {}
+
+    internal func presentAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+
+        navigationController.present(alertController, animated: true)
+    }
 }

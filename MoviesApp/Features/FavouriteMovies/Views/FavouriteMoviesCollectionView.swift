@@ -37,10 +37,10 @@ internal struct FavouriteMoviesCollectionView: View {
                     FavouriteMovieCell(dataSource: movie) { [weak viewModel] identifier in
                         viewModel?.didTapDislikeCell(from: identifier)
                     }
-                    .frame(height: 500)
                 }
             }
         }
+        .padding(.horizontal, 10.0)
     }
 
     private var errorMessageLabel: some View {

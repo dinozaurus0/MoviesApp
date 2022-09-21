@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+private struct Constants {
+    private static let componentHex = 80.0/255.0
+    internal static let borderColor = Color(red: componentHex, green: componentHex, blue: componentHex)
+}
+
 internal struct FavouriteMovieCell: View {
     // MARK: - Properties
     private let dataSource: PresentableFavouriteMovieCard
@@ -22,28 +27,18 @@ internal struct FavouriteMovieCell: View {
     internal var body: some View {
         VStack {
             imageView
-            VStack {
-                Spacer()
-                textStacks
-            }
+            textStacks
             ratingView
         }
-        .cornerRadius(10.0)
+        .border(Constants.borderColor, width: 2.0)
+        .cornerRadius(5.0)
     }
 
     private var imageView: some View {
-        ZStack(alignment: .topTrailing) {
-            Image(data: dataSource.image)?
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-            Button {
-                didTapDislike(dataSource.id)
-            } label: {
-                Image("DislikeImage")
-                    .resizable()
-                    .frame(width: 35.0, height: 35.0)
-            }
-        }
+        Image(data: dataSource.image)?
+            .resizable()
+            .scaledToFit()
+            .frame(height: 250.0)
     }
 
     private var textStacks: some View {
@@ -51,10 +46,11 @@ internal struct FavouriteMovieCell: View {
             Text(dataSource.title)
                 .font(Font.title)
                 .fontWeight(.bold)
+                .lineLimit(1)
             Text(dataSource.description)
                 .font(Font.body)
                 .multilineTextAlignment(.leading)
-                .lineLimit(4)
+                .lineLimit(5)
         }.padding(.horizontal, 10.0)
     }
 
@@ -62,13 +58,18 @@ internal struct FavouriteMovieCell: View {
         HStack(alignment: .center, spacing: 5.0) {
             Image("RatingImage")
                 .resizable()
-                .scaledToFit()
-                .frame(width: 35.0, height: 35.0)
-                .padding(.leading, 20.0)
+                .frame(width: 40.0, height: 40.0)
             Text(dataSource.rating)
-                .foregroundColor(.white)
             Spacer()
+            Button {
+                didTapDislike(dataSource.id)
+            } label: {
+                Image("DislikeImage")
+                    .resizable()
+                    .frame(width: 45.0, height: 45.0)
+            }
         }
+        .padding(.horizontal, 10.0)
         .padding(.bottom, 10.0)
     }
 }

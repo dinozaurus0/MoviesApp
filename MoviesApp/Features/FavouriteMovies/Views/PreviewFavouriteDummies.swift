@@ -10,6 +10,7 @@ import Foundation
 internal final class DummyFavouriteMoviesRouter: FavouriteMoviesRouter {
     internal func navigateToSearchScreen() {}
     internal func navigateToDetailsScreen(movieSelected: Movie) {}
+    internal func presentAlert(title: String, message: String) {}
 }
 
 internal final class DummyFavouriteMoviesService: FavouriteMoviesFetcher, FavouriteMoviesDeleter {

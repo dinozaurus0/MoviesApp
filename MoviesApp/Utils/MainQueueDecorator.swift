@@ -46,3 +46,19 @@ extension MainQueueDecorator: MovieChecker where DecorateeType: MovieChecker {
         }
     }
 }
+
+extension MainQueueDecorator: FavouriteMoviesFetcher where DecorateeType: FavouriteMoviesFetcher {
+    internal func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {
+        decoratee.fetchMovies { [weak self] result in
+            self?.executeOnMainQueue { completion(result) }
+        }
+    }
+}
+
+extension MainQueueDecorator: FavouriteMoviesDeleter where DecorateeType: FavouriteMoviesDeleter {
+    func remove(with title: String, completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) {
+        decoratee.remove(with: title) { [weak self] result in
+            self?.executeOnMainQueue { completion(result) }
+        }
+    }
+}

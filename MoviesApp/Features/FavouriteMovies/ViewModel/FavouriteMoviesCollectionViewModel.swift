@@ -35,8 +35,7 @@ extension FavouriteMoviesCollectionViewModel {
             case .success:
                 self?.fetchMovies()
             case .failure:
-                break
-                // show a message to say it failed to unlike the movie ?? Like a pop up ?
+                self?.router.presentAlert(title: "Deletion failed!", message: "At this time, the deletion of the entry failed. Please try again later!")
             }
         }
     }
@@ -107,3 +106,7 @@ extension FavouriteMoviesCollectionViewModel {
               rating: Float(presentableFavouriteMovie.rating) ?? 0.0)
     }
 }
+
+// handle when delete fails
+// update ui cell
+// navigate to

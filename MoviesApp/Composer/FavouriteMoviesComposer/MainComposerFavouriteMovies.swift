@@ -11,11 +11,7 @@ import CoreData
 
 extension MainComposer: FavouriteMoviesComposer {
     internal func navigateToFavouriteMovies(navigationStack: UINavigationController) -> FavouritesMoviesHostingController {
-        let coredataHandler = CoreDataHandler.shatedInstance()
-        let updateContext = coredataHandler.persistenceContainer.newBackgroundContext()
-        let moviesService = FavouriteMoviesService(fetchContext: coredataHandler.mainContext,
-                                                   deleteContext: updateContext,
-                                                   databaseHandler: coredataHandler)
+        let moviesService = createFavouriteMoviesService()
 
         let router = FavouriteMoviesNavigationRouter(searchMoviesComposer: self,
                                                      navigationController: navigationStack)
@@ -29,5 +25,16 @@ extension MainComposer: FavouriteMoviesComposer {
                                                                               viewModel: viewModel)
 
         return favouriteMoviesViewController
+    }
+
+    private func createFavouriteMoviesService() -> FavouriteMoviesFetcher & FavouriteMoviesDeleter {
+        let coredataHandler = CoreDataHandler.shatedInstance()
+        let updateContext = coredataHandler.persistenceContainer.newBackgroundContext()
+
+        let moviesService = FavouriteMoviesService(fetchContext: coredataHandler.mainContext,
+                                                   deleteContext: updateContext,
+                                                   databaseHandler: coredataHandler)
+
+        return MainQueueDecorator(decoratee: moviesService)
     }
 }
