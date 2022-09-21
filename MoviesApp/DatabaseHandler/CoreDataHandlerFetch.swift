@@ -8,21 +8,6 @@
 import CoreData
 
 extension CoreDataHandler {
-//    internal func fetchObjects<ObjectType: CoredataConvertibleFrom>(_ fetchRequest: NSFetchRequest<ObjectType>,
-//                                                                    in context: NSManagedObjectContext,
-//                                                                    completion: @escaping (Result<[ObjectType.ResultType], Error>) -> Void) {
-//        context.perform { [weak self] in
-//            guard let self = self else { return }
-//
-//            self.fetch(using: fetchRequest, in: context) { [weak self] result in
-//                guard let self = self else { return }
-//
-//                let parsedResult = self.handleEntitiesConvertion(from: result)
-//                completion(parsedResult)
-//            }
-//        }
-//    }
-
     internal func fetchObjects<MapperType: CoredataConvertibleFrom>(_ fetchRequest: NSFetchRequest<MapperType.InputType>,
                                                                     in context: NSManagedObjectContext,
                                                                     mapper: MapperType.Type,
@@ -61,7 +46,6 @@ extension CoreDataHandler {
         }
     }
 
-    // This stays
     private func fetch<ObjectType: NSFetchRequestResult>(using fetchRequest: NSFetchRequest<ObjectType>,
                                                          in context: NSManagedObjectContext,
                                                          completion: (Result<[ObjectType], Error>) -> Void) {

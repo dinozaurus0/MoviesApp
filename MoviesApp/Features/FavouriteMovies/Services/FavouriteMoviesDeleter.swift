@@ -7,8 +7,8 @@
 
 import Foundation
 
-public protocol FavouriteMoviesUpdater {
+public protocol FavouriteMoviesDeleter {
     typealias Result = Swift.Result<Void, Error>
 
-    func dislikeMovie(with title: String, completion: @escaping (Result) -> Void)
+    func remove(with title: String, completion: @escaping (Result) -> Void)
 }

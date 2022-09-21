@@ -2,27 +2,48 @@
 //  CoreDataHandlerDelete.swift
 //  MoviesApp
 //
-//  Created by Vlad Grigore Sima on 16.09.2022.
+//  Created by Vlad Grigore Sima on 21.09.2022.
 //
 
 import CoreData
 
-
-// TODO: This might not be neede anymore ?? Will be refactor into an update mechanism.
 extension CoreDataHandler {
-    internal func delete(objects: [NSManagedObject], in context: NSManagedObjectContext) {
+    typealias DeleteResult = Swift.Result<Void, Error>
+
+    internal func delete(objectsId: [NSManagedObjectID], in context: NSManagedObjectContext, completion: @escaping (DeleteResult) -> Void) {
         context.perform { [weak self] in
             guard let self = self else { return }
 
-            self.executeDelete(for: objects, in: context)
-            guard self.shouldExecuteSave(on: context) else { return }
-            self.executeSave(on: context)
+            do {
+                let result = try self.executeDelete(objectsId: objectsId, in: context)
+                completion(result)
+            } catch(let error) {
+                completion(.failure(error))
+            }
         }
     }
 
-    private func executeDelete(for objects: [NSManagedObject], in context: NSManagedObjectContext) {
-        objects.forEach { object in
-            context.delete(object)
+    private func executeSaveIfNeeded(on result: DeleteResult, in context: NSManagedObjectContext) -> DeleteResult {
+        return result.flatMap {
+            guard self.shouldExecuteSave(on: context) else {
+                return .failure(DatabaseSaveError())
+            }
+
+            return executeSave(on: context)
         }
+    }
+
+    private func executeDelete(objectsId: [NSManagedObjectID], in context: NSManagedObjectContext) throws -> DeleteResult {
+        try objectsId.forEach { id in
+            do {
+                let object = try context.existingObject(with: id)
+                context.delete(object)
+            } catch {
+                context.rollback()
+                throw DatabaseDeleteError()
+            }
+        }
+
+        return .success(())
     }
 }

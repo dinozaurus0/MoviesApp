@@ -11,6 +11,7 @@ import CoreData
 
 internal protocol CoredataConvertibleTo {
     associatedtype InputType
+
     static func convert(input: InputType, context: NSManagedObjectContext)
 }
 

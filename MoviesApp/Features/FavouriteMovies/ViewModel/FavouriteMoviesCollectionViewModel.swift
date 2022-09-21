@@ -14,11 +14,11 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
     @Published public var noEntryMessage: String = ""
 
     private let moviesFetcher: FavouriteMoviesFetcher
-    private let moviesUpdater: FavouriteMoviesUpdater
+    private let moviesUpdater: FavouriteMoviesDeleter
     private let router: FavouriteMoviesRouter
 
     // MARK: - Init
-    public init(moviesFetcher: FavouriteMoviesFetcher, moviesUpdater: FavouriteMoviesUpdater, router: FavouriteMoviesRouter) {
+    public init(moviesFetcher: FavouriteMoviesFetcher, moviesUpdater: FavouriteMoviesDeleter, router: FavouriteMoviesRouter) {
         self.moviesFetcher = moviesFetcher
         self.moviesUpdater = moviesUpdater
         self.router = router
@@ -29,7 +29,7 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
 extension FavouriteMoviesCollectionViewModel {
     public func didTapDislikeCell(from identifier: UUID) {
         let favouriteMovieTitle = mapIdentifierToTitle(identifier)
-        moviesUpdater.dislikeMovie(with: favouriteMovieTitle) { [weak self] result in
+        moviesUpdater.remove(with: favouriteMovieTitle) { [weak self] result in
             switch result {
             case .success:
                 self?.fetchMovies()

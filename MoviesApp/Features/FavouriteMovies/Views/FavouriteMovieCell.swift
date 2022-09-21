@@ -28,22 +28,20 @@ internal struct FavouriteMovieCell: View {
             }
             ratingView
         }
-        .border(.gray)
-        .cornerRadius(5.0)
+        .cornerRadius(10.0)
     }
 
     private var imageView: some View {
         ZStack(alignment: .topTrailing) {
             Image(data: dataSource.image)?
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(contentMode: .fill)
             Button {
                 didTapDislike(dataSource.id)
             } label: {
                 Image("DislikeImage")
                     .resizable()
-                    .scaledToFit()
-                    .frame(width: 50.0, height: 50.0)
+                    .frame(width: 35.0, height: 35.0)
             }
         }
     }

@@ -10,7 +10,7 @@ import SwiftUI
 internal struct FavouriteMoviesCollectionView: View {
 
     // MARK: - Properties
-    private var columns: [GridItem] = [
+    private var gridLayout: [GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
@@ -32,11 +32,12 @@ internal struct FavouriteMoviesCollectionView: View {
 
     private var moviesCollectionList: some View {
         ScrollView() {
-            LazyVGrid(columns: columns, spacing: 20.0) {
+            LazyVGrid(columns: gridLayout, spacing: 10.0) {
                 ForEach(viewModel.favouriteMovies) { movie in
                     FavouriteMovieCell(dataSource: movie) { [weak viewModel] identifier in
                         viewModel?.didTapDislikeCell(from: identifier)
                     }
+                    .frame(height: 500)
                 }
             }
         }

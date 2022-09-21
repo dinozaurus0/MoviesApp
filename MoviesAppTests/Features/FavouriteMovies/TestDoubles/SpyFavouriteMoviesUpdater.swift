@@ -8,7 +8,7 @@
 import Foundation
 import MoviesApp
 
-internal final class SpyFavouriteMoviesUpdater: FavouriteMoviesUpdater {
+internal final class SpyFavouriteMoviesUpdater: FavouriteMoviesDeleter {
 
     internal enum ReceivedMessage: Equatable {
         case deleteMovie(with: UUID)

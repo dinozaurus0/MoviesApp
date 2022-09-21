@@ -15,7 +15,7 @@ internal final class FavouriteMoviesCollectionViewModelTests: XCTestCase {
     // MARK: - Helpers
 
     private func makeSUT(moviesFetcher: FavouriteMoviesFetcher,
-                         moviesUpdater: FavouriteMoviesUpdater? = nil,
+                         moviesUpdater: FavouriteMoviesDeleter? = nil,
                          router: FavouriteMoviesRouter? = nil) -> FavouriteMoviesCollectionViewModel {
         FavouriteMoviesCollectionViewModel(moviesFetcher: moviesFetcher,
                                            moviesUpdater: moviesUpdater ?? SpyFavouriteMoviesUpdater(),

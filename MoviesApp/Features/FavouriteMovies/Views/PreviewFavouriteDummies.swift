@@ -12,7 +12,7 @@ internal final class DummyFavouriteMoviesRouter: FavouriteMoviesRouter {
     internal func navigateToDetailsScreen(movieSelected: FavouriteMovie) {}
 }
 
-internal final class DummyFavouriteMoviesService: FavouriteMoviesFetcher, FavouriteMoviesUpdater {
+internal final class DummyFavouriteMoviesService: FavouriteMoviesFetcher, FavouriteMoviesDeleter {
     internal func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {}
-    internal func dislikeMovie(with title: String, completion: @escaping (FavouriteMoviesUpdater.Result) -> Void) {}
+    internal func remove(with title: String, completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) {}
 }

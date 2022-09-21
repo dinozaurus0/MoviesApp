@@ -59,8 +59,8 @@ extension FavouriteMoviesService: FavouriteMoviesFetcher {
     }
 }
 
-extension FavouriteMoviesService: FavouriteMoviesUpdater {
-    public func dislikeMovie(with title: String, completion: @escaping (FavouriteMoviesUpdater.Result) -> Void) {
+extension FavouriteMoviesService: FavouriteMoviesDeleter {
+    public func remove(with title: String, completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) {
         let fetchRequest = createUpdateMovieFetchRequest(with: title)
 
         databaseHandler.fetchObjects(fetchRequest, in: updateContext) { [weak self] result in
@@ -69,7 +69,7 @@ extension FavouriteMoviesService: FavouriteMoviesUpdater {
     }
 
     private func handleMovieUpdateResult(_ result: Result<[MovieEntity], Error>,
-                                         completion: (FavouriteMoviesUpdater.Result) -> Void) {
+                                         completion: (FavouriteMoviesDeleter.Result) -> Void) {
         switch result {
         case let .success(entities):
             dislikeEntities(using: entities)
