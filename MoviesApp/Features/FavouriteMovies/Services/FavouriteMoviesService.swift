@@ -11,23 +11,24 @@ public final class FavouriteMoviesService {
 
     // MARK: - Properties
     private let fetchContext: NSManagedObjectContext
-    private let updateContext: NSManagedObjectContext
+    private let deleteContext: NSManagedObjectContext
     private let databaseHandler: CoreDataHandler
     
 
     // MARK: - Init
-    internal init(fetchContext: NSManagedObjectContext, updateContext: NSManagedObjectContext, databaseHandler: CoreDataHandler) {
+    internal init(fetchContext: NSManagedObjectContext, deleteContext: NSManagedObjectContext, databaseHandler: CoreDataHandler) {
         self.fetchContext = fetchContext
-        self.updateContext = updateContext
+        self.deleteContext = deleteContext
         self.databaseHandler = databaseHandler
     }
 }
 
 extension FavouriteMoviesService: FavouriteMoviesFetcher {
-    public func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {
+    internal func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {
         let fetchRequest = createFavouriteMoviesFetchRequest()
-        databaseHandler.fetchObjects(fetchRequest, in: fetchContext) { [weak self] result in
-            self?.handleFetchResult(result, completion: completion)
+
+        databaseHandler.fetchObjects(fetchRequest, in: fetchContext, mapper: MovieEntityMapper.self) { result in
+            completion(result)
         }
     }
 
@@ -36,54 +37,26 @@ extension FavouriteMoviesService: FavouriteMoviesFetcher {
         fetchRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(MovieEntity.isFavourite), NSNumber(value: true))
         return fetchRequest
     }
-
-    private func handleFetchResult(_ result: Result<[MovieEntity], Error>,
-                                   completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {
-
-        switch result {
-        case let .success(entities):
-            let movies = computeMoviesFromEntities(using: entities)
-            completion(.success(movies))
-        case let .failure(error):
-            completion(.failure(error))
-        }
-    }
-
-    private func computeMoviesFromEntities(using entities: [MovieEntity]) -> [FavouriteMovie] {
-        return entities.map { entity in
-            FavouriteMovie(title: entity.title ?? "",
-                           description: entity.details ?? "",
-                           image: entity.image ?? Data(),
-                           rating: entity.rating)
-        }
-    }
 }
 
 extension FavouriteMoviesService: FavouriteMoviesDeleter {
     public func remove(with title: String, completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) {
         let fetchRequest = createUpdateMovieFetchRequest(with: title)
 
-        databaseHandler.fetchObjects(fetchRequest, in: updateContext) { [weak self] result in
-            self?.handleMovieUpdateResult(result, completion: completion)
+        databaseHandler.fetchObjects(fetchRequest, in: deleteContext, mapper: ManagedObjectIdMapper.self) { [weak self] objectsIdResult in
+            guard let self = self else { return }
+
+            let parsedResult = self.deleteEntriesIfNeeded(objectsIdResult, completion: completion)
+            completion(parsedResult)
         }
     }
 
-    private func handleMovieUpdateResult(_ result: Result<[MovieEntity], Error>,
-                                         completion: (FavouriteMoviesDeleter.Result) -> Void) {
-        switch result {
-        case let .success(entities):
-            dislikeEntities(using: entities)
-            databaseHandler.saveSync(context: updateContext)
-            databaseHandler.saveAsync(context: fetchContext)
-            completion(.success(()))
-        case let .failure(error):
-            completion(.failure(error))
-        }
-    }
-    
-    private func dislikeEntities(using entities: [MovieEntity]) {
-        entities.forEach { entity in
-            entity.isFavourite = false
+    private func deleteEntriesIfNeeded(_ result: Result<[NSManagedObjectID], Error>,
+                                       completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) -> Result<Void, Error> {
+        return result.map { objectsId in
+            self.databaseHandler.delete(objectsId: objectsId, in: self.deleteContext) { deletionResult in
+                completion(deletionResult)
+            }
         }
     }
 

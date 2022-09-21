@@ -7,7 +7,7 @@
 
 import CoreData
 
-internal enum ManagedObjectId: CoredataConvertibleFrom {
+internal enum ManagedObjectIdMapper: CoredataConvertibleFrom {
     internal static func convert(input: MovieEntity) -> NSManagedObjectID {
         input.objectID
     }

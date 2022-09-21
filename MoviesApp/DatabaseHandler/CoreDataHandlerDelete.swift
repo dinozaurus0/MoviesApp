@@ -16,7 +16,8 @@ extension CoreDataHandler {
 
             do {
                 let result = try self.executeDelete(objectsId: objectsId, in: context)
-                completion(result)
+                let saveResult = self.executeSaveIfNeeded(on: result, in: context)
+                completion(saveResult)
             } catch(let error) {
                 completion(.failure(error))
             }

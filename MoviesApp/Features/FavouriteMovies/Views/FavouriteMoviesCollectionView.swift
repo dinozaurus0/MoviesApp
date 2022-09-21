@@ -59,7 +59,7 @@ internal struct FavouriteMoviesCollectionView_Previews: PreviewProvider {
         let favouriteMoviesService = DummyFavouriteMoviesService()
 
         return FavouriteMoviesCollectionViewModel(moviesFetcher: favouriteMoviesService,
-                                                  moviesUpdater: favouriteMoviesService,
+                                                  moviesDeleter: favouriteMoviesService,
                                                   router: DummyFavouriteMoviesRouter())
     }
 

@@ -14,13 +14,13 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
     @Published public var noEntryMessage: String = ""
 
     private let moviesFetcher: FavouriteMoviesFetcher
-    private let moviesUpdater: FavouriteMoviesDeleter
+    private let moviesDeleter: FavouriteMoviesDeleter
     private let router: FavouriteMoviesRouter
 
     // MARK: - Init
-    public init(moviesFetcher: FavouriteMoviesFetcher, moviesUpdater: FavouriteMoviesDeleter, router: FavouriteMoviesRouter) {
+    internal init(moviesFetcher: FavouriteMoviesFetcher, moviesDeleter: FavouriteMoviesDeleter, router: FavouriteMoviesRouter) {
         self.moviesFetcher = moviesFetcher
-        self.moviesUpdater = moviesUpdater
+        self.moviesDeleter = moviesDeleter
         self.router = router
     }
 }
@@ -29,11 +29,14 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
 extension FavouriteMoviesCollectionViewModel {
     public func didTapDislikeCell(from identifier: UUID) {
         let favouriteMovieTitle = mapIdentifierToTitle(identifier)
-        moviesUpdater.remove(with: favouriteMovieTitle) { [weak self] result in
+
+        moviesDeleter.remove(with: favouriteMovieTitle) { [weak self] result in
             switch result {
             case .success:
                 self?.fetchMovies()
-            case .failure: break
+            case .failure:
+                break
+                // show a message to say it failed to unlike the movie ?? Like a pop up ?
             }
         }
     }
@@ -60,7 +63,7 @@ extension FavouriteMoviesCollectionViewModel {
         }
     }
 
-    private func handleSuccessfulMoviesFetch(with favouriteMovies: [FavouriteMovie]) {
+    private func handleSuccessfulMoviesFetch(with favouriteMovies: [Movie]) {
         if favouriteMovies.isEmpty {
             noEntryMessage = "No favourite movies to display!"
         } else {
@@ -70,7 +73,7 @@ extension FavouriteMoviesCollectionViewModel {
         self.favouriteMovies = convertFavouriteMoviesToPresentableItems(favouriteMovies)
     }
 
-    private func convertFavouriteMoviesToPresentableItems(_ movies: [FavouriteMovie]) -> [PresentableFavouriteMovieCard] {
+    private func convertFavouriteMoviesToPresentableItems(_ movies: [Movie]) -> [PresentableFavouriteMovieCard] {
         movies.map { movie in
             PresentableFavouriteMovieCard(id: UUID(), title: movie.title, description: movie.description, image: movie.image, rating: String(movie.rating) )
         }
@@ -97,10 +100,10 @@ extension FavouriteMoviesCollectionViewModel {
         favouriteMovies.first { $0.id == identifier }
     }
 
-    private func convertFromPresentableToFavouriteMovie(_ presentableFavouriteMovie: PresentableFavouriteMovieCard) -> FavouriteMovie {
-        FavouriteMovie(title: presentableFavouriteMovie.title,
-                       description: presentableFavouriteMovie.description,
-                       image: presentableFavouriteMovie.image,
-                       rating: Float(presentableFavouriteMovie.rating) ?? 0.0)
+    private func convertFromPresentableToFavouriteMovie(_ presentableFavouriteMovie: PresentableFavouriteMovieCard) -> Movie {
+        Movie(title: presentableFavouriteMovie.title,
+              description: presentableFavouriteMovie.description,
+              image: presentableFavouriteMovie.image,
+              rating: Float(presentableFavouriteMovie.rating) ?? 0.0)
     }
 }

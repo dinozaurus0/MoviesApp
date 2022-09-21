@@ -24,23 +24,4 @@ extension CoreDataHandler {
             completion(saveResult)
         }
     }
-
-    // TODO: Both will be deprecated
-    internal func saveAsync(context: NSManagedObjectContext) {
-        context.perform { [weak self] in
-            guard let self = self else { return }
-
-            guard self.shouldExecuteSave(on: context) else { return }
-            self.executeSaveOn(on: context)
-        }
-    }
-
-    internal func saveSync(context: NSManagedObjectContext) {
-        context.performAndWait { [weak self] in
-            guard let self = self else { return }
-
-            guard self.shouldExecuteSave(on: context) else { return }
-            self.executeSaveOn(on: context)
-        }
-    }
 }

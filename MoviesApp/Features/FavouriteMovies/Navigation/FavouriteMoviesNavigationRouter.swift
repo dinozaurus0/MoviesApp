@@ -27,5 +27,5 @@ internal final class FavouriteMoviesNavigationRouter: FavouriteMoviesRouter {
         navigationController.present(searchViewController, animated: true)
     }
 
-    internal func navigateToDetailsScreen(movieSelected: FavouriteMovie) {}
+    internal func navigateToDetailsScreen(movieSelected: Movie) {}
 }
