@@ -8,3 +8,4 @@
 import Foundation
 
 internal struct InvalidPath: Error {}
+internal struct InvalidQueryParameters: Error {}

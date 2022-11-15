@@ -18,15 +18,6 @@ internal final class MovieAssetDownloaderService: MovieAssetDownloader {
     }
 
     // MARK: - MovieAssetDownloader
-    internal func download(path: String, completion: @escaping (MovieAssetDownloader.Result) -> Void) {
-        guard let url = URL(string: path) else { return }
-
-//        httpClient.executeRequest(url: url) { result in
-//            let parsedResponse = MovieAssetDownloaderMapper.mapToAsset(result: result)
-//            completion(parsedResponse)
-//        }
-    }
-
     internal func download(path: String) async throws -> Data {
         guard let url = URL(string: path) else {
             throw InvalidPath()

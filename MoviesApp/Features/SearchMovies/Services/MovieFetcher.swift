@@ -8,7 +8,5 @@
 import Foundation
 
 internal protocol MovieFetcher {
-    typealias Result = Swift.Result<Movie, Error>
-
-    func find(by title: String, completion: @escaping (Result) -> Void)
+    func find(by title: String) async throws -> Movie
 }

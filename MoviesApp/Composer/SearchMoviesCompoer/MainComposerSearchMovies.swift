@@ -49,7 +49,7 @@ extension MainComposer: SearchMoviesComposer {
         let assertDownloader = MovieAssetDownloaderService(httpClient: httpClient)
         let movieFetcher = MovieFetcherService(assetsDownloader: assertDownloader, movieFinder: movieFinder)
 
-        return MainQueueDecorator(decoratee: movieFetcher)
+        return movieFetcher
     }
 
     private func createSearchMovieService() -> MovieChecker & MoviePersistent {

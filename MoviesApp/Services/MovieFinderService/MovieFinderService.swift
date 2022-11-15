@@ -18,12 +18,16 @@ internal final class MovieFinderService: MovieFinder {
     }
 
     // MARK: - MovieFinder
-    func find(by title: String, completion: @escaping (MovieFinder.Result) -> Void) {
-        guard let url = createURLComponents(using: title)?.url else { return }
+    func find(by title: String) async throws -> APIMovie {
+        guard let url = createURLComponents(using: title)?.url else {
+            throw InvalidQueryParameters()
+        }
 
-        httpClient.executeRequest(url: url) { result in
-            let parsedResponse = MovieFinderMapper.mapToMovies(result: result)
-            completion(parsedResponse)
+        do {
+            let result = try await httpClient.executeRequest(url: url)
+            return try MovieFinderMapper.mapToMovies(response: result)
+        } catch(let error) {
+            throw error
         }
     }
 

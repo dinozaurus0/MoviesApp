@@ -20,32 +20,21 @@ internal final class MovieFetcherService: MovieFetcher {
     }
 
     // MARK: - MovieFinder
-    internal func find(by title: String, completion: @escaping (MovieFetcher.Result) -> Void) {
-        movieFinder.find(by: title) { [weak self] result in
-            guard let self = self else { return }
-
-            switch result {
-            case .success(let apiModel):
-                self.handleSuccessfulMovieDownload(model: apiModel, completion: completion)
-            case let .failure(error):
-                completion(.failure(error))
-            }
+    internal func find(by title: String) async throws -> Movie {
+        do {
+            let movie = try await movieFinder.find(by: title)
+            return try await handleSuccessfulMovieDownload(model: movie)
+        } catch(let error) {
+            throw error
         }
     }
 
-    private func handleSuccessfulMovieDownload(model: APIMovie, completion: @escaping (MovieFetcher.Result) -> Void) {
-        downloadImageAsset(imagePath: model.imagePath) { result in
-            let movieResult = result.map { imageData in
-                Movie(title: model.title, description: model.description, image: imageData, rating: model.rating)
-            }
-
-            completion(movieResult)
-        }
+    private func handleSuccessfulMovieDownload(model: APIMovie) async throws -> Movie {
+        let imageData = try await downloadImageAsset(imagePath: model.imagePath)
+        return Movie(title: model.title, description: model.description, image: imageData, rating: model.rating)
     }
 
-    private func downloadImageAsset(imagePath: String, completion: @escaping (Result<Data, Error>) -> Void) {
-        assetsDownloader.download(path: imagePath) { result in
-            completion(result)
-        }
+    private func downloadImageAsset(imagePath: String) async throws -> Data {
+        return try await assetsDownloader.download(path: imagePath)
     }
 }

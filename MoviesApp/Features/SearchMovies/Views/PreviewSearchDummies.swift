@@ -10,7 +10,9 @@ import Foundation
 internal final class DummyMovieFetcher: MovieFetcher {
     internal init() {}
 
-    internal func find(by title: String, completion: @escaping (MovieFetcher.Result) -> Void) {}
+    internal func find(by title: String) async throws -> Movie {
+        return Movie(title: "", description: "", image: Data(), rating: 1.0)
+    }
 }
 
 internal final class DummySearchMovieService: MoviePersistent, MovieChecker {
