@@ -23,21 +23,6 @@ internal final class MainQueueDecorator<DecorateeType> {
     }
 }
 
-extension MainQueueDecorator: MoviePersistent where DecorateeType: MoviePersistent {
-    internal func save(movie: Movie, completion: @escaping (MoviePersistent.Result) -> Void) {
-        decoratee.save(movie: movie) { [weak self] result in
-            self?.executeOnMainQueue { completion(result) }
-        }
-    }
-}
-
-extension MainQueueDecorator: MovieChecker where DecorateeType: MovieChecker {
-    internal func doesMovieExist(with title: String, completion: @escaping (MovieChecker.Result) -> Void) {
-        decoratee.doesMovieExist(with: title) { [weak self] result in
-            self?.executeOnMainQueue { completion(result) }
-        }
-    }
-}
 
 extension MainQueueDecorator: FavouriteMoviesFetcher where DecorateeType: FavouriteMoviesFetcher {
     internal func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {

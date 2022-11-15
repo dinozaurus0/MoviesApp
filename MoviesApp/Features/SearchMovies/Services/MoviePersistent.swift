@@ -8,7 +8,5 @@
 import Foundation
 
 internal protocol MoviePersistent {
-    typealias Result = Swift.Result<Void, Error>
-
-    func save(movie: Movie, completion: @escaping (Result) -> Void)
+    func save(movie: Movie) async throws
 }

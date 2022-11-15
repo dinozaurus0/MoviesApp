@@ -8,7 +8,5 @@
 import Foundation
 
 internal protocol MovieChecker {
-    typealias Result = Swift.Result<Bool, Error>
-
-    func doesMovieExist(with title: String, completion: @escaping (Result) -> Void)
+    func doesMovieExist(with title: String) async throws -> Bool
 }

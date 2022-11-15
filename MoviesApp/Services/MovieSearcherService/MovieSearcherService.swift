@@ -21,33 +21,25 @@ internal final class MovieSearcherService {
 }
 
 extension MovieSearcherService: MoviePersistent {
-    internal func save(movie: Movie, completion: @escaping (MoviePersistent.Result) -> Void) {
-        databaseHandler.save(context: context,
-                             objectToSave: movie,
-                             mapper: MovieMapper.self) { result in
-            completion(result)
-        }
+    internal func save(movie: Movie) async throws  {
+        return try await databaseHandler.save(context: context, objectToSave: movie, mapper: MovieMapper.self)
     }
 }
 
 extension MovieSearcherService: MovieChecker {
-    internal func doesMovieExist(with title: String, completion: @escaping (MovieChecker.Result) -> Void) {
+    internal func doesMovieExist(with title: String) async throws -> Bool {
         let fetchRequest = createFetchRequest(title: title)
 
-        databaseHandler.fetchObjects(fetchRequest,
-                                     in: context ,
-                                     mapper: MovieEntityMapper.self) { [weak self] result in
-            guard let self = self else { return }
-
-            let parsedResult = self.checkIfEntityExists(from: result)
-            completion(parsedResult)
+        do {
+            let movies = try await databaseHandler.fetchObjects(fetchRequest, in: context, mapper: MovieEntityMapper.self)
+            return self.checkIfEntityExists(from: movies)
+        } catch(let error) {
+            throw error
         }
     }
 
-    private func checkIfEntityExists(from result: Result<[Movie], Error>) -> MovieChecker.Result {
-        return result.map { entities in
-            !entities.isEmpty
-        }
+    private func checkIfEntityExists(from entities: [Movie]) -> Bool {
+        !entities.isEmpty
     }
 
     private func createFetchRequest(title: String) -> NSFetchRequest<MovieEntity> {

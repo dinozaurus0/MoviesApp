@@ -18,14 +18,13 @@ extension CoreDataHandler {
 
         return true
     }
-
-    internal func executeSave(on context: NSManagedObjectContext) -> SaveResult {
+    
+    internal func executeSave(on context: NSManagedObjectContext) throws -> Void {
         do {
             try context.save()
-            return .success(())
         } catch _ {
             context.rollback()
-            return .failure(DatabaseSaveError())
+            throw DatabaseSaveError()
         }
     }
 }

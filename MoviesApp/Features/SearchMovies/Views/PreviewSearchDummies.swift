@@ -18,8 +18,8 @@ internal final class DummyMovieFetcher: MovieFetcher {
 internal final class DummySearchMovieService: MoviePersistent, MovieChecker {
     internal init() {}
 
-    internal func save(movie: Movie, completion: @escaping (MoviePersistent.Result) -> Void) {}
-    internal func doesMovieExist(with title: String, completion: @escaping (MovieChecker.Result) -> Void) {}
+    internal func save(movie: Movie) async throws {}
+    internal func doesMovieExist(with title: String) async throws {}
 }
 
 internal final class DummySearchMovieNavigationRouter: SearchMovieRouter {
