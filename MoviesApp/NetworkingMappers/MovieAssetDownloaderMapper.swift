@@ -8,18 +8,17 @@
 import Foundation
 
 internal enum MovieAssetDownloaderMapper {
-    internal static func mapToAsset(result: HttpClient.Result) -> MovieAssetDownloader.Result {
-        return result.flatMap { (data, response) in
-            return parseResponse(data: data, response: response)
-        }
+    internal static func mapToAsset(clientResponse: HttpClient.ClientResponse) throws -> Data {
+        let (data, response) = clientResponse
+        return try parseResponse(data: data, response: response)
     }
 
-    private static func parseResponse(data: Data, response: HTTPURLResponse) -> MovieAssetDownloader.Result {
+    private static func parseResponse(data: Data, response: HTTPURLResponse) throws -> Data {
         guard isResponseValid(response) else {
-            return .failure(FailedRequestError())
+            throw FailedRequestError()
         }
 
-        return .success(data)
+        return data
     }
 
     private static func isResponseValid(_ response: HTTPURLResponse) -> Bool {

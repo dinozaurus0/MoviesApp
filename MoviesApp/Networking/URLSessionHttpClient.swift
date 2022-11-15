@@ -7,13 +7,13 @@
 
 import Foundation
 
-internal final class URLSessionHttpClient: HttpClient {
+public final class URLSessionHttpClient: HttpClient {
 
     // MARK: - Properties
     private let urlSession: URLSession
 
     // MARK: - Init
-    internal init(urlSession: URLSession) {
+    public init(urlSession: URLSession) {
         self.urlSession = urlSession
     }
 
@@ -28,4 +28,18 @@ internal final class URLSessionHttpClient: HttpClient {
             completion(.success((data, response)))
         }.resume()
     }
+
+    internal func executeRequest(url: URL) async throws -> ClientResponse {
+        do {
+            let (data, response) = try await urlSession.data(from: url)
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw FailedRequestError()
+            }
+
+            return (data, httpResponse)
+        } catch {
+            throw FailedRequestError()
+        }
+    }
 }
+

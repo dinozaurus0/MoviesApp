@@ -20,7 +20,7 @@ internal final class MovieFetcherService: MovieFetcher {
     }
 
     // MARK: - MovieFinder
-    func find(by title: String, completion: @escaping (MovieFetcher.Result) -> Void) {
+    internal func find(by title: String, completion: @escaping (MovieFetcher.Result) -> Void) {
         movieFinder.find(by: title) { [weak self] result in
             guard let self = self else { return }
 
