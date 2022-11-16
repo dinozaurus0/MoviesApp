@@ -19,7 +19,9 @@ internal final class DummySearchMovieService: MoviePersistent, MovieChecker {
     internal init() {}
 
     internal func save(movie: Movie) async throws {}
-    internal func doesMovieExist(with title: String) async throws {}
+    internal func doesMovieExist(with title: String) async throws -> Bool {
+        return true
+    }
 }
 
 internal final class DummySearchMovieNavigationRouter: SearchMovieRouter {

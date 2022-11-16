@@ -57,7 +57,6 @@ extension MainComposer: SearchMoviesComposer {
 
         let backgroundContext = coredataHandler.persistenceContainer.newBackgroundContext()
 
-        let movieService = MovieSearcherService(context: backgroundContext, databaseHandler: coredataHandler)
-        return MainQueueDecorator(decoratee: movieService)
+        return MovieSearcherService(context: backgroundContext, databaseHandler: coredataHandler)
     }
 }

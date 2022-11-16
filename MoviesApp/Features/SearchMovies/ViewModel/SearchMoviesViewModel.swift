@@ -39,17 +39,17 @@ internal final class SearchMoviesViewModel: ObservableObject {
 
 // MARK: - Add to favourites
 extension SearchMoviesViewModel {
-    internal func addToFavouriteMovie() {
+    internal func addToFavouriteMovie() async {
         guard let presentableMovie = presentableMovie else { return }
 
         showProgressView()
 
         let movie = createMovie(from: presentableMovie)
-        moviePersistent.save(movie: movie) { [weak self] result in
-            guard let self = self else { return }
-
-            self.hideProgressView()
-            self.handlePersistentResult(result)
+        do {
+            try await moviePersistent.save(movie: movie)
+            handleAddToFavouriteSuccess()
+        } catch {
+            handleAddToFavouriteError()
         }
     }
 
@@ -60,14 +60,15 @@ extension SearchMoviesViewModel {
               rating: Float(presentableMovie.rating) ?? 0.0)
     }
 
-    private func handlePersistentResult(_ result: MoviePersistent.Result) {
-        switch result {
-        case .success:
-            router.dimiss()
-        case .failure:
-            router.presentAlert(title: "Failed to add to favourites !",
-                                message: "After dismissing the alert, please try again.")
-        }
+    private func handleAddToFavouriteSuccess() {
+        hideProgressView()
+        router.dimiss()
+    }
+
+    private func handleAddToFavouriteError() {
+        hideProgressView()
+        router.presentAlert(title: "Failed to add to favourites !",
+                            message: "After dismissing the alert, please try again.")
     }
 }
 
@@ -75,62 +76,29 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
     internal func didTapSearchButton(with text: String) {
         showProgressView()
 
-        executeSearchIfNeeded(text: text) { [weak self] in
-            self?.hideProgressView()
+        Task {
+            await executeSearchIfNeeded(title: text)
         }
     }
 
-    private func executeSearchIfNeeded(text: String, completion: @escaping () -> Void) {
-        checkMovieExistance(text: text, completion: completion)
-    }
+    private func executeSearchIfNeeded(title: String) async {
+        do {
+            let shouldExecuteSearch = try await movieChecker.doesMovieExist(with: title)
+            guard shouldExecuteSearch else {
+                showMessageForMovieInFavouriteList()
+                return
+            }
 
-    private func checkMovieExistance(text: String, completion: @escaping () -> Void) {
-        movieChecker.doesMovieExist(with: text) { [weak self] result in
-            self?.handleExistanceCheckResult(result, title: text, completion: completion)
-        }
-    }
-
-    private func handleExistanceCheckResult(_ result: MovieChecker.Result, title: String, completion: @escaping () -> Void) {
-        switch result {
-        case .success(let isMovieInFavouriteList):
-            startSearchMovieIfNeeded(isMovieInFavouriteList, title: title, completion: completion)
-        case .failure:
+            let movie = try await movieFetcher.find(by: title)
+            handleSuccessfulFetch(movie: movie)
+        } catch {
             showMessageForFetchFailure()
-            completion()
         }
-    }
-
-    private func startSearchMovieIfNeeded(_ isMovieInFavouriteList: Bool, title: String, completion: @escaping () -> Void) {
-        guard !isMovieInFavouriteList else {
-            showMessageForMovieInFavouriteList()
-            completion()
-            return
-        }
-
-        searchMovie(by: title, completion: completion)
     }
 
     private func showMessageForMovieInFavouriteList() {
         presentableMovie = nil
         noEntryMessage = "You have already added this movie to favourite list. Go back on the main screen to visualise its details!"
-    }
-
-    private func searchMovie(by title: String, completion: @escaping () -> Void) {
-        movieFetcher.find(by: title) { [weak self] result in
-            guard let self = self else { return }
-
-            self.handleMovieFinderResult(result)
-            completion()
-        }
-    }
-
-    private func handleMovieFinderResult(_ result: MovieFetcher.Result) {
-        switch result {
-        case .success(let movie):
-            self.handleSuccessfulFetch(movie: movie)
-        case .failure:
-            self.showMessageForFetchFailure()
-        }
     }
 
     private func handleSuccessfulFetch(movie: Movie) {

@@ -50,7 +50,7 @@ extension CoreDataHandler {
     internal func fetchObjects<MapperType: CoredataConvertibleFrom>(_ fetchRequest: NSFetchRequest<MapperType.InputType>,
                                                                     in context: NSManagedObjectContext,
                                                                     mapper: MapperType.Type) async throws -> [MapperType.OutputType] {
-        return try await context.perform { [weak self] in
+        try await context.perform { [weak self] in
             guard let self = self else { return }
 
             do {

@@ -74,7 +74,9 @@ internal struct SearchMovieView: View {
 
     private var addToFavouriteButton: some View {
         Button { [weak viewModel] in
-            viewModel?.addToFavouriteMovie()
+            Task {
+                viewModel?.addToFavouriteMovie()
+            }
         } label: {
             Text("Add To Favourite List")
                 .font(Font.body)
