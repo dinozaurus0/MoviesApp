@@ -30,7 +30,12 @@ extension CoreDataHandler {
                 return .failure(DatabaseSaveError())
             }
 
-            return executeSave(on: context)
+            do {
+                try executeSave(on: context)
+                return .success(())
+            } catch(let error) {
+                return .failure(error)
+            }
         }
     }
 
