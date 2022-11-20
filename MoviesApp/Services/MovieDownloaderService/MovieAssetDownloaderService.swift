@@ -23,11 +23,7 @@ internal final class MovieAssetDownloaderService: MovieAssetDownloader {
             throw InvalidPath()
         }
 
-        do {
-            let result = try await httpClient.executeRequest(url: url)
-            return try MovieAssetDownloaderMapper.mapToAsset(clientResponse: result)
-        } catch(let error) {
-            throw error
-        }
+        let result = try await httpClient.executeRequest(url: url)
+        return try MovieAssetDownloaderMapper.mapToAsset(clientResponse: result)
     }
 }

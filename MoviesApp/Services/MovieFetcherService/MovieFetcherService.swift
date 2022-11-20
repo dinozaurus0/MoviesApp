@@ -21,12 +21,8 @@ internal final class MovieFetcherService: MovieFetcher {
 
     // MARK: - MovieFinder
     internal func find(by title: String) async throws -> Movie {
-        do {
-            let movie = try await movieFinder.find(by: title)
-            return try await handleSuccessfulMovieDownload(model: movie)
-        } catch(let error) {
-            throw error
-        }
+        let movie = try await movieFinder.find(by: title)
+        return try await handleSuccessfulMovieDownload(model: movie)
     }
 
     private func handleSuccessfulMovieDownload(model: APIMovie) async throws -> Movie {

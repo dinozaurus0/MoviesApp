@@ -30,12 +30,8 @@ extension MovieSearcherService: MovieChecker {
     internal func doesMovieExist(with title: String) async throws -> Bool {
         let fetchRequest = createFetchRequest(title: title)
 
-        do {
-            let movies = try await databaseHandler.fetchObjects(fetchRequest, in: context, mapper: MovieEntityMapper.self)
-            return self.checkIfEntityExists(from: movies)
-        } catch(let error) {
-            throw error
-        }
+        let movies = try await databaseHandler.fetchObjects(fetchRequest, in: context, mapper: MovieEntityMapper.self)
+        return self.checkIfEntityExists(from: movies)
     }
 
     private func checkIfEntityExists(from entities: [Movie]) -> Bool {

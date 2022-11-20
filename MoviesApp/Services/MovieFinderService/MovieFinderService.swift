@@ -23,12 +23,8 @@ internal final class MovieFinderService: MovieFinder {
             throw InvalidQueryParameters()
         }
 
-        do {
-            let result = try await httpClient.executeRequest(url: url)
-            return try MovieFinderMapper.mapToMovies(response: result)
-        } catch(let error) {
-            throw error
-        }
+        let result = try await httpClient.executeRequest(url: url)
+        return try MovieFinderMapper.mapToMovies(response: result)
     }
 
     private func createURLComponents(using title: String) -> URLComponents? {
