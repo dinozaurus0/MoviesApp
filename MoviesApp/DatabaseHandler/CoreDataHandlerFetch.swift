@@ -51,11 +51,11 @@ extension CoreDataHandler {
                                                                     in context: NSManagedObjectContext,
                                                                     mapper: MapperType.Type) async throws -> [MapperType.OutputType] {
         return try await context.perform { [weak self] in
-            guard let self = self else { return }
+            guard let self = self else { return [] }
 
             do {
-                let entities = self.fetch(using: fetchRequest, in: context)
-                return handleEntitiesConvertion(from: entities, mapper: mapper)
+                let entities = try self.fetch(using: fetchRequest, in: context)
+                return self.handleEntitiesConvertion(from: entities, mapper: mapper)
             } catch(let error) {
                 throw error
             }
@@ -73,8 +73,8 @@ extension CoreDataHandler {
 
     private func handleEntitiesConvertion<MapperType: CoredataConvertibleFrom>(from entities: [MapperType.InputType],
                                                                                mapper: MapperType.Type) -> [MapperType.OutputType] {
-            return entities.map { entity in
-                return mapper.convert(input: entity)
-            }
+        return entities.map { entity in
+            return mapper.convert(input: entity)
+        }
     }
 }

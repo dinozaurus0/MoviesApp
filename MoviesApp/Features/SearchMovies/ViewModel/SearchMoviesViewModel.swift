@@ -42,14 +42,14 @@ extension SearchMoviesViewModel {
     internal func addToFavouriteMovie() async {
         guard let presentableMovie = presentableMovie else { return }
 
-        showProgressView()
+        await showProgressView()
 
         let movie = createMovie(from: presentableMovie)
         do {
             try await moviePersistent.save(movie: movie)
-            handleAddToFavouriteSuccess()
+            await handleAddToFavouriteSuccess()
         } catch {
-            handleAddToFavouriteError()
+            await handleAddToFavouriteError()
         }
     }
 
@@ -60,12 +60,12 @@ extension SearchMoviesViewModel {
               rating: Float(presentableMovie.rating) ?? 0.0)
     }
 
-    private func handleAddToFavouriteSuccess() {
+    @MainActor private func handleAddToFavouriteSuccess() {
         hideProgressView()
         router.dimiss()
     }
 
-    private func handleAddToFavouriteError() {
+    @MainActor private func handleAddToFavouriteError() {
         hideProgressView()
         router.presentAlert(title: "Failed to add to favourites !",
                             message: "After dismissing the alert, please try again.")
@@ -74,34 +74,34 @@ extension SearchMoviesViewModel {
 
 extension SearchMoviesViewModel: SearchFieldNotifier {
     internal func didTapSearchButton(with text: String) {
-        showProgressView()
-
         Task {
+            await showProgressView()
             await executeSearchIfNeeded(title: text)
+            await hideProgressView()
         }
     }
 
     private func executeSearchIfNeeded(title: String) async {
         do {
             let shouldExecuteSearch = try await movieChecker.doesMovieExist(with: title)
-            guard shouldExecuteSearch else {
-                showMessageForMovieInFavouriteList()
+            guard !shouldExecuteSearch else {
+                await showMessageForMovieInFavouriteList()
                 return
             }
 
             let movie = try await movieFetcher.find(by: title)
-            handleSuccessfulFetch(movie: movie)
+            await handleSuccessfulFetch(movie: movie)
         } catch {
-            showMessageForFetchFailure()
+            await showMessageForFetchFailure()
         }
     }
 
-    private func showMessageForMovieInFavouriteList() {
+    @MainActor private func showMessageForMovieInFavouriteList() {
         presentableMovie = nil
         noEntryMessage = "You have already added this movie to favourite list. Go back on the main screen to visualise its details!"
     }
 
-    private func handleSuccessfulFetch(movie: Movie) {
+    @MainActor private func handleSuccessfulFetch(movie: Movie) {
         presentableMovie = PresentableSearchMovieDetails(title: movie.title,
                                                    description: movie.description,
                                                    image: movie.image,
@@ -109,7 +109,7 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
         noEntryMessage = ""
     }
 
-    private func showMessageForFetchFailure() {
+    @MainActor private func showMessageForFetchFailure() {
         presentableMovie = nil
         noEntryMessage = "We couldn't find the movie you are looking for or you have already seen the movie. Try again!"
     }
@@ -117,11 +117,11 @@ extension SearchMoviesViewModel: SearchFieldNotifier {
 
 // MARK: - Progress View Flag
 extension SearchMoviesViewModel {
-    private func showProgressView() {
+    @MainActor private func showProgressView() {
         shouldShowProgressView = true
     }
 
-    private func hideProgressView() {
+    @MainActor private func hideProgressView() {
         shouldShowProgressView = false
     }
 }
