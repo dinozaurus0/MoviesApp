@@ -32,7 +32,9 @@ internal final class FavouritesMoviesHostingController: UIHostingController<Favo
     internal override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        viewModel.loadMovies()
+        Task {
+            await viewModel.loadMovies()
+        }
     }
 
     // MARK: - Private Methods

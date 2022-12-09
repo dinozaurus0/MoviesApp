@@ -27,16 +27,14 @@ public final class FavouriteMoviesCollectionViewModel: ObservableObject {
 
 // MARK: - Movies Fetch & Movie Deletion
 extension FavouriteMoviesCollectionViewModel {
-    public func didTapDislikeCell(from identifier: UUID) {
+    public func didTapDislikeCell(from identifier: UUID) async {
         let favouriteMovieTitle = mapIdentifierToTitle(identifier)
 
-        moviesDeleter.remove(with: favouriteMovieTitle) { [weak self] result in
-            switch result {
-            case .success:
-                self?.fetchMovies()
-            case .failure:
-                self?.router.presentAlert(title: "Deletion failed!", message: "At this time, the deletion of the entry failed. Please try again later!")
-            }
+        do {
+            try await moviesDeleter.remove(with: favouriteMovieTitle)
+            await fetchMovies()
+        } catch {
+            await router.presentAlert(title: "Deletion failed!", message: "At this time, the deletion of the entry failed. Please try again later!")
         }
     }
 
@@ -45,24 +43,20 @@ extension FavouriteMoviesCollectionViewModel {
         return title ?? ""
     }
 
-    public func loadMovies() {
-        fetchMovies()
+    public func loadMovies() async {
+        await fetchMovies()
     }
 
-    private func fetchMovies() {
-        moviesFetcher.fetchMovies { [weak self] result in
-            guard let self = self else { return }
-
-            switch result {
-            case let .success(movies):
-                self.handleSuccessfulMoviesFetch(with: movies)
-            case .failure:
-                self.handleFailureMoviesFetch()
-            }
+    private func fetchMovies() async {
+        do {
+            let movies = try await moviesFetcher.fetchMovies()
+            await handleSuccessfulMoviesFetch(with: movies)
+        } catch {
+            await handleFailureMoviesFetch()
         }
     }
 
-    private func handleSuccessfulMoviesFetch(with favouriteMovies: [Movie]) {
+    @MainActor private func handleSuccessfulMoviesFetch(with favouriteMovies: [Movie]) {
         if favouriteMovies.isEmpty {
             noEntryMessage = "No favourite movies to display!"
         } else {
@@ -78,7 +72,7 @@ extension FavouriteMoviesCollectionViewModel {
         }
     }
 
-    private func handleFailureMoviesFetch() {
+    @MainActor private func handleFailureMoviesFetch() {
         noEntryMessage = "There is a problem with movies fetching. Please try later!"
     }
 }

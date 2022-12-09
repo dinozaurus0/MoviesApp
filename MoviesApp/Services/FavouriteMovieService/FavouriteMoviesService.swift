@@ -24,17 +24,9 @@ internal final class FavouriteMoviesService {
 }
 
 extension FavouriteMoviesService: FavouriteMoviesFetcher {
-    internal func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {
+    internal func fetchMovies() async throws -> [Movie] {
         let fetchRequest = createFavouriteMoviesFetchRequest()
-
-        databaseHandler.fetchObjects(fetchRequest, in: fetchContext, mapper: MovieEntityMapper.self) { result in
-            completion(result)
-        }
-    }
-
-    internal func fetchMovies() async throws {
-        let fetchRequest = createFavouriteMoviesFetchRequest()
-        try await databaseHandler.fetchObjects(fetchRequest, in: fetchContext, mapper: MovieEntityMapper.self)
+        return try await databaseHandler.fetchObjects(fetchRequest, in: fetchContext, mapper: MovieEntityMapper.self)
     }
 
     private func createFavouriteMoviesFetchRequest() -> NSFetchRequest<MovieEntity> {
@@ -51,8 +43,6 @@ extension FavouriteMoviesService: FavouriteMoviesDeleter {
         let objectsIdResult = try await databaseHandler.fetchObjects(fetchRequest, in: deleteContext, mapper: ManagedObjectIdMapper.self)
         try await databaseHandler.delete(objectsId: objectsIdResult, in: deleteContext)
     }
-
-    public func remove(with title: String, completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) {}
 
     private func createUpdateMovieFetchRequest(with title: String) -> NSFetchRequest<MovieEntity> {
         let fetchRequest: NSFetchRequest<MovieEntity> = MovieEntity.fetchRequest()

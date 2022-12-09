@@ -34,8 +34,10 @@ internal struct FavouriteMoviesCollectionView: View {
         ScrollView() {
             LazyVGrid(columns: gridLayout, spacing: 10.0) {
                 ForEach(viewModel.favouriteMovies) { movie in
-                    FavouriteMovieCell(dataSource: movie) { [weak viewModel] identifier in
-                        viewModel?.didTapDislikeCell(from: identifier)
+                    FavouriteMovieCell(dataSource: movie) { identifier in
+                        Task { [weak viewModel] in
+                            await viewModel?.didTapDislikeCell(from: identifier)
+                        }
                     }.onTapGesture { [weak viewModel] in
                         viewModel?.didSelectCell(with: movie.id)
                     }
