@@ -22,12 +22,3 @@ internal final class MainQueueDecorator<DecorateeType> {
         }
     }
 }
-
-
-extension MainQueueDecorator: FavouriteMoviesFetcher where DecorateeType: FavouriteMoviesFetcher {
-    internal func fetchMovies(completion: @escaping (FavouriteMoviesFetcher.Result) -> Void) {
-        decoratee.fetchMovies { [weak self] result in
-            self?.executeOnMainQueue { completion(result) }
-        }
-    }
-}
