@@ -8,8 +8,5 @@
 import Foundation
 
 public protocol FavouriteMoviesFetcher {
-    typealias Result = Swift.Result<[Movie], Error>
-    
-    func fetchMovies(completion: @escaping (Result) -> Void)
-    func fetchMovies() async throws
+    func fetchMovies() async throws -> [Movie]
 }

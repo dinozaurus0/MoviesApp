@@ -8,8 +8,5 @@
 import Foundation
 
 public protocol FavouriteMoviesDeleter {
-    typealias Result = Swift.Result<Void, Error>
-
-    func remove(with title: String, completion: @escaping (Result) -> Void)
     func remove(with title: String) async throws
 }
