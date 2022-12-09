@@ -10,6 +10,6 @@ import Foundation
 public protocol FavouriteMoviesRouter {
     func navigateToSearchScreen()
     func navigateToDetailsScreen(selectedMovie: Movie)
-    func presentAlert(title: String, message: String)
+    @MainActor func presentAlert(title: String, message: String)
 }
 

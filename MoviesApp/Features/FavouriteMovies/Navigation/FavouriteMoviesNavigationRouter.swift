@@ -35,7 +35,7 @@ internal final class FavouriteMoviesNavigationRouter: FavouriteMoviesRouter {
         self.navigationController.present(navigationController, animated: true)
     }
 
-    internal func presentAlert(title: String, message: String) {
+    @MainActor internal func presentAlert(title: String, message: String) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
 
