@@ -31,10 +31,8 @@ extension MainComposer: FavouriteMoviesComposer {
         let coredataHandler = CoreDataHandler.shatedInstance()
         let updateContext = coredataHandler.persistenceContainer.newBackgroundContext()
 
-        let moviesService = FavouriteMoviesService(fetchContext: coredataHandler.mainContext,
-                                                   deleteContext: updateContext,
-                                                   databaseHandler: coredataHandler)
-
-        return MainQueueDecorator(decoratee: moviesService)
+        return  FavouriteMoviesService(fetchContext: coredataHandler.mainContext,
+                                       deleteContext: updateContext,
+                                       databaseHandler: coredataHandler)
     }
 }

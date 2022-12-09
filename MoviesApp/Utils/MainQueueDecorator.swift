@@ -31,11 +31,3 @@ extension MainQueueDecorator: FavouriteMoviesFetcher where DecorateeType: Favour
         }
     }
 }
-
-extension MainQueueDecorator: FavouriteMoviesDeleter where DecorateeType: FavouriteMoviesDeleter {
-    func remove(with title: String, completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) {
-        decoratee.remove(with: title) { [weak self] result in
-            self?.executeOnMainQueue { completion(result) }
-        }
-    }
-}

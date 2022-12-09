@@ -9,8 +9,9 @@ import Foundation
 
 internal protocol HttpClient {
     typealias Result = Swift.Result<(Data, HTTPURLResponse), Error>
-    typealias ClientResponse = (Data, HTTPURLResponse)
 
     func executeRequest(url: URL, completion: @escaping (Result) -> Void)
+
+    typealias ClientResponse = (Data, HTTPURLResponse)
     func executeRequest(url: URL) async throws -> ClientResponse
 }
