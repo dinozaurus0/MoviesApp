@@ -32,6 +32,11 @@ extension FavouriteMoviesService: FavouriteMoviesFetcher {
         }
     }
 
+    internal func fetchMovies() async throws {
+        let fetchRequest = createFavouriteMoviesFetchRequest()
+        try await databaseHandler.fetchObjects(fetchRequest, in: fetchContext, mapper: MovieEntityMapper.self)
+    }
+
     private func createFavouriteMoviesFetchRequest() -> NSFetchRequest<MovieEntity> {
         let fetchRequest: NSFetchRequest<MovieEntity> = MovieEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(MovieEntity.isFavourite), NSNumber(value: true))
@@ -40,25 +45,14 @@ extension FavouriteMoviesService: FavouriteMoviesFetcher {
 }
 
 extension FavouriteMoviesService: FavouriteMoviesDeleter {
-    public func remove(with title: String, completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) {
+    public func remove(with title: String) async throws {
         let fetchRequest = createUpdateMovieFetchRequest(with: title)
 
-        databaseHandler.fetchObjects(fetchRequest, in: deleteContext, mapper: ManagedObjectIdMapper.self) { [weak self] objectsIdResult in
-            guard let self = self else { return }
-
-            let parsedResult = self.deleteEntriesIfNeeded(objectsIdResult, completion: completion)
-            completion(parsedResult)
-        }
+        let objectsIdResult = try await databaseHandler.fetchObjects(fetchRequest, in: deleteContext, mapper: ManagedObjectIdMapper.self)
+        try await databaseHandler.delete(objectsId: objectsIdResult, in: deleteContext)
     }
 
-    private func deleteEntriesIfNeeded(_ result: Result<[NSManagedObjectID], Error>,
-                                       completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) -> Result<Void, Error> {
-        return result.map { objectsId in
-            self.databaseHandler.delete(objectsId: objectsId, in: self.deleteContext) { deletionResult in
-                completion(deletionResult)
-            }
-        }
-    }
+    public func remove(with title: String, completion: @escaping (FavouriteMoviesDeleter.Result) -> Void) {}
 
     private func createUpdateMovieFetchRequest(with title: String) -> NSFetchRequest<MovieEntity> {
         let fetchRequest: NSFetchRequest<MovieEntity> = MovieEntity.fetchRequest()
