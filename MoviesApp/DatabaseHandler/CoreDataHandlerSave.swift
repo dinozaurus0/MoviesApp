@@ -8,28 +8,6 @@
 import CoreData
 
 extension CoreDataHandler {
-    typealias SaveResult = Swift.Result<Void, Error>
-
-    @available(*, deprecated, message: "Use the async version instead")
-    internal func save<MapperType: CoredataConvertibleTo>(context: NSManagedObjectContext,
-                                                          objectToSave: MapperType.InputType,
-                                                          mapper: MapperType.Type,
-                                                          completion: @escaping (SaveResult) -> Void) {
-        context.perform { [weak self] in
-            guard let self = self else { return }
-
-            mapper.convert(input: objectToSave, context: context)
-            guard self.shouldExecuteSave(on: context) else { return }
-
-            do {
-                let saveResult: Void = try self.executeSave(on: context)
-                completion(.success(saveResult))
-            } catch(let error) {
-                completion(.failure(error))
-            }
-        }
-    }
-
     internal func save<MapperType: CoredataConvertibleTo>(context: NSManagedObjectContext,
                                                           objectToSave: MapperType.InputType,
                                                           mapper: MapperType.Type) async throws {
